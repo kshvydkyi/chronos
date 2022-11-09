@@ -1,7 +1,7 @@
 import express from "express";
 import cors from 'cors';
 import bodyParser from "body-parser";
-import routes from './settings/routes.js';
+import routes from './router/routes.js';
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -15,7 +15,7 @@ const corsOptions ={
 app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-routes(app);
+app.use("/api", routes);
 
 app.listen(port, () => {
     console.log(`listening http://localhost:${port}/`);

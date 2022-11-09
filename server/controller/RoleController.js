@@ -1,10 +1,10 @@
 import status from '../settings/response.js'
-import User from '../models/User.js';
+import Role from '../models/Role.js';
 
-class UserController {
+class RoleController {
     async select_all(req, res, next) {
         try{
-            const result = await User.select_all();
+            const result = await Role.select_all();
             status(200, {result}, res);
         }
         catch(err){
@@ -14,14 +14,14 @@ class UserController {
 
     async select_by_id(req, res, next) {
         try{
-            var user_id = req.params.user_id;
-            const result = await User.select_by_id(user_id);
+            var user_id = req.params.role_id;
+            const result = await Role.select_by_id(role_id);
             status(200, {result}, res);
         }
         catch(err){
             next(err);
         }
     }
-
 }
- export default new UserController();
+
+export default new RoleController();
