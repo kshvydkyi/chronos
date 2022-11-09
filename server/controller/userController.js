@@ -6,9 +6,10 @@ const getRoles = async (req, res) => {
     try{
         const roles = await User.getRoles();
         console.log(roles);
+        status(200, {roles}, res);
     }
     catch(e){
-        console.log(e);
+        status(505, {e}, res);
     }
 
 }

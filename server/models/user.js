@@ -5,6 +5,5 @@ class User extends Model {
         const sql =  await this.DB.query("SELECT * FROM roles");
         return sql[0];
     }
-
 }
 export default new User;
