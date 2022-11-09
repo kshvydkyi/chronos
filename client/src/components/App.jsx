@@ -6,6 +6,7 @@ import NotFound from './Errors/NotFound';
 import RequreAuth from './Auth/RequireAuth';
 import ServerError from './Errors/ServerError';
 import WelcomePage from './Auth/WelcomePage';
+import Login from './Auth/Login';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
 			<Route path="/" element={<Layout />} >
 				{/* Auth module */}
 				<Route path='/' element={<WelcomePage />} />
+        <Route path='login' element={<Login/>} />
 				{/* only authorized users */}
 				<Route element={<RequreAuth allowedRoles={['User', 'Admin']}/>} >
 					</Route>

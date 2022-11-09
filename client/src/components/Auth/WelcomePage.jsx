@@ -3,7 +3,6 @@ const WelcomePage = () => {
         <>
             <div>
                 <div>
-                    <h1>Хронос</h1>
                 </div>
             </div>
         </>
