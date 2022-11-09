@@ -20,5 +20,27 @@ class Category {
             console.log(err);
         }
     }
+    async create(body) {
+        try {
+            var sql = `INSERT INTO categories (title) VALUES (${body.title}`;
+            const [row] = await db.execute(sql);
+            const jsonContent = JSON.stringify(row);
+            return jsonContent;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    
+    async delete_by_id(id)
+	{
+        try {
+			var sql = `DELETE FROM categories WHERE id = ${id}`;
+			const [row] = await dbConnection.execute(sql);
+            const jsonContent = JSON.stringify(row);
+            return jsonContent;
+        } catch (e) {
+            console.log(e);
+        }
+	}
 }
 export default new Category();
