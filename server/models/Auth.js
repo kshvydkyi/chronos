@@ -8,6 +8,7 @@ class Auth {
             data = {
                     "login": body.login,
                     "password": body.password,
+                    "confirm_password": body.password,
                     "full_name": body.full_name,
                     "about_me": "",
                     "photo": "default_avatar.png",

@@ -5,6 +5,7 @@ class AuthController {
     async register(req, res, next) {
         try{
             const result = await Auth.register(req.body);
+
             status(200, {result}, res);
         }
         catch(err){
