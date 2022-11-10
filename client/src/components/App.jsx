@@ -10,6 +10,7 @@ import Login from './Auth/Login';
 import Register from './Auth/Register';
 import ResetPassword from './Auth/ResetPassword';
 import ResetPasswordWT from './Auth/ResetPasswordWT';
+import Calendar from './Calendar/Calendar';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
 				<Route path='registration' element={<Register/> } />
 				<Route path='reset-password' element={<ResetPassword/>} />
 				<Route path='reset-password/token' element={<ResetPasswordWT/>} />
+				<Route path='calendar' element={<Calendar/>} /> 
 				{/* only authorized users */}
 				<Route element={<RequreAuth allowedRoles={['User', 'Admin']}/>} >
 					</Route>

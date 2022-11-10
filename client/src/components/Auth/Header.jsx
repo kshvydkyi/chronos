@@ -19,7 +19,7 @@ const Header = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#features">Календар</Nav.Link>
+              <Nav.Link href="/calendar">Календар</Nav.Link>
               <Nav.Link href="#pricing">Пріколи</Nav.Link>
               <NavDropdown title="Дії" id="collasible-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Дія 1</NavDropdown.Item>
