@@ -2,7 +2,10 @@ import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from '../../api/axios';
+import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
 import SpinnerLoading from "../Other/Spinner";
+import Button from 'react-bootstrap/Button';
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const RESETPASS_URL = '/api/auth/password-reset';
 
@@ -31,6 +34,7 @@ const ResetPassword = () => {
         }
         try{
             setLoading(true);
+            console.log(email)
             // const response = await axios.post(RESETPASS_URL, 
             //     JSON.stringify({email: email}),
             //     {
@@ -59,24 +63,25 @@ const ResetPassword = () => {
 
     return(
         <>
+        <div className="form-background p-5 d-flex justify-content-center text-white">
         {success ? (
-                <section className="reset-passSection email-reg">
-                    <h1>Відновлення паролю</h1>
+                <section className="reset-passSection email-reg  bg-dark text-white rounded d-flex flex-column p-3 justify-content-center">
+                    <h1 className="text-center">Відновлення паролю</h1>
                     
                     <p className="reset-msg">Посилання на відновлення паролю було відправлено на ваш email.</p>
                 </section>
             ) : (
-        <section className="reset-passSection">
+        <section  className='registration bg-dark text-white rounded d-flex flex-column p-3 justify-content-center'>
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
             <h1>Відновлення паролю</h1>
             <form onSubmit={resetPassword}>
-             <label className="form_label" htmlFor="email">
+             <Form.Label className="form_label" htmlFor="email">
                             Елекронна пошта:
                             <FontAwesomeIcon icon={faCheck} className={validEmail ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validEmail || !email ? "hide" : "invalid"} />
-                        </label>
-                        <input
-                            className="form__field"
+                        </Form.Label>
+                        <Form.Control
+                            className="bg-dark text-white"
                             type="text"
                             id="email"
                             autoComplete="off"
@@ -92,10 +97,11 @@ const ResetPassword = () => {
                             <FontAwesomeIcon icon={faInfoCircle} />
                             Ваша пошта для відновлення паролю.
                         </p>
-                        <button disabled={isLoading}>{isLoading ? <SpinnerLoading /> : 'Відновити пароль'}</button>
+                        <Button  type="submit" variant="secondary" className="login-btn rounded"  disabled={isLoading}>{isLoading ? <SpinnerLoading /> : 'Відновити пароль'}</Button>
                     </form>
         </section>
             )}
+            </div>
         </>
     )
 

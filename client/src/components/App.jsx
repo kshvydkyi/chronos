@@ -8,6 +8,8 @@ import ServerError from './Errors/ServerError';
 import WelcomePage from './Auth/WelcomePage';
 import Login from './Auth/Login';
 import Register from './Auth/Register';
+import ResetPassword from './Auth/ResetPassword';
+import ResetPasswordWT from './Auth/ResetPasswordWT';
 
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
 				<Route path='/' element={<WelcomePage />} />
         		<Route path='login' element={<Login/>} />
 				<Route path='registration' element={<Register/> } />
+				<Route path='reset-password' element={<ResetPassword/>} />
+				<Route path='reset-password/token' element={<ResetPasswordWT/>} />
 				{/* only authorized users */}
 				<Route element={<RequreAuth allowedRoles={['User', 'Admin']}/>} >
 					</Route>

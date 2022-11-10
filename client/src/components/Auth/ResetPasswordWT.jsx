@@ -4,6 +4,8 @@ import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from '../../api/axios';
 import SpinnerLoading from "../Other/Spinner";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const RESETPASS_URL = `/api/auth/password-reset/`;
@@ -40,13 +42,14 @@ const ResetPasswordWT = () =>{
         }
         try {
             setLoading(true);
-            const response = await axios.post(RESETPASS_URL + confirm_token,
-                JSON.stringify({password: pwd, confirmPassword: matchPwd}),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
-            );
+            console.log(pwd, matchPwd)
+            // const response = await axios.post(RESETPASS_URL + confirm_token,
+            //     JSON.stringify({password: pwd, confirmPassword: matchPwd}),
+            //     {
+            //         headers: { 'Content-Type': 'application/json' },
+            //         withCredentials: true
+            //     }
+            // );
             // console.log(response?.data.status, response?.data.values.message);
             setSuccess(true);
             setLoading(false);
@@ -66,23 +69,24 @@ const ResetPasswordWT = () =>{
     }
     return(
         <>
+        <div className="form-background p-5 d-flex justify-content-center text-white">
         {success ? (
-            <section className="email-reg">
-                <h1>Ваш пароль відновлено</h1>
+            <section className="email-reg bg-dark text-white rounded d-flex flex-column p-3 justify-content-center">
+                <h1 className="text-center">Ваш пароль відновлено</h1>
                 <p>Ви зможете залогінитись через декілька секунд</p>
             </section>
         ) : (
-            <section className="reset-passSection">
+            <section className='registration bg-dark text-white rounded d-flex flex-column p-3 justify-content-center'>
                 <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                 <h1>Відновлення паролю</h1>
                 <form onSubmit={handleSubmit}>
-                    <label className="form_label " htmlFor="password">
+                    <Form.Label className="form_label " htmlFor="password">
                         Новий пароль:
                         <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
                         <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
-                    </label>
-                    <input
-                        className="form__field"
+                    </Form.Label>
+                    <Form.Control
+                        className="bg-dark text-white"
                         type="password"
                         id="password"
                         onChange={(e) => setPwd(e.target.value)}
@@ -104,13 +108,13 @@ const ResetPasswordWT = () =>{
                     </p>
 
 
-                    <label className="form_label" htmlFor="confirm_pwd">
+                    <Form.Label className="form_label" htmlFor="confirm_pwd">
                         Підтвердіть пароль:
                         <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
                         <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
-                    </label>
-                    <input
-                        className="form__field"
+                    </Form.Label>
+                    <Form.Control
+                       className="bg-dark text-white"
                         type="password"
                         id="confirm_pwd"
                         onChange={(e) => setMatchPwd(e.target.value)}
@@ -125,10 +129,11 @@ const ResetPasswordWT = () =>{
                         <FontAwesomeIcon icon={faInfoCircle} />
                         Повинен збігатись з полем вище.
                     </p>
-                    <button disabled={!validPwd || !validMatch || isLoading ? true : false}>{isLoading ? <SpinnerLoading /> : 'Відновити пароль'}</button>
+                    <Button  type="submit" variant="secondary" className="login-btn rounded"  disabled={!validPwd || !validMatch || isLoading ? true : false}>{isLoading ? <SpinnerLoading /> : 'Відновити пароль'}</Button>
                 </form>
             </section>
         )}
+        </div>
     </>
     )
 }

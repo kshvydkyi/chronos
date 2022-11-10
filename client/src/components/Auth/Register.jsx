@@ -114,7 +114,7 @@ const Register = () => {
         <>
         <div className="form-background p-5 d-flex justify-content-center text-white">
             {success ? (
-                <section className="email-reg text-center">
+                <section className="email-reg text-center  bg-dark text-white rounded d-flex flex-column p-3 justify-content-center">
                     <h1>Дякуємо за реєстрацію!</h1>
                     <p>
                         На ваш email було відправлено лист з підтвердженням. Коли ви підтверите email, ви зможете <a href="/login"> залогінитись</a>
