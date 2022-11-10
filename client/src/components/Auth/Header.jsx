@@ -15,28 +15,28 @@ const Header = () => {
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container >
             <img src={logo} height={40} alt='logo'/>
-          <Navbar.Brand href="/">AnonCHRNS</Navbar.Brand>
+          <Navbar.Brand href="/">Anonymous Chronos</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#features">Features</Nav.Link>
-              <Nav.Link href="#pricing">Pricing</Nav.Link>
-              <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <Nav.Link href="#features">Календар</Nav.Link>
+              <Nav.Link href="#pricing">Пріколи</Nav.Link>
+              <NavDropdown title="Дії" id="collasible-nav-dropdown">
+                <NavDropdown.Item href="#action/3.1">Дія 1</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
-                  Another action
+                  Дія 2
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Дія 3</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action/3.4">
-                  Separated link
+                  Тут пріколи
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <Nav>
-              <Nav.Link href="/login">Login</Nav.Link>
+              <Nav.Link href="/login">Вхід</Nav.Link>
               <Nav.Link eventKey={2} href="/registration">
-               Registration
+               Реєстрація
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
