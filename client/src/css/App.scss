@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
 
 $primary-color: rgb(56, 56, 56);
+$background-body:  #15171a;
+$backgroun-black: #212529;
 $text-color: white;
 $font-stack: 'PT Sans', sans-serif;
 
@@ -45,7 +47,9 @@ html{
       transform: rotate(360deg);
     }
   }
-
+.form-background{
+  background-color: $background-body;
+}
 .page-loading{
     display: inline-block;
     width: 100px;
@@ -97,14 +101,14 @@ html{
     position:relative;
     font-size: 12px;
     bottom: -5px;
-    color:#2c2c2c;
+    color: $backgroun-black;
     transition: 0.5s;
 }
 .form__field {
     font-family: inherit;
     width: 100%;
     border: 0;
-    border-bottom: 2px solid #9b9b9b;
+    border: 2px solid #9b9b9b;
     outline: 0;
     font-size: 18px;
     color: #fff;
@@ -126,12 +130,14 @@ html{
     padding-bottom: 7px;
     font-weight: 400;
     border-width: 2px;
+    border-radius: 15px;
     border-image: linear-gradient(to right, rgb(142, 51, 222), rgb(90, 20, 152));
     border-image-slice: 1;
 }
 .login-btn{
     margin-top: 30px;
     padding: 10px;
+    width: 100%;
     margin-top: 10px;
     margin-bottom: 10px;
     font-family: 'PT Sans', sans-serif;
@@ -145,4 +151,53 @@ html{
 }
 .login-btn:hover{
     background-color: rgb(66, 15, 112);
+}
+
+.errmsg {
+  background-color: rgba(0, 0, 0, 0.185);
+  color: rgb(217, 15, 15);
+  font-weight: bold;
+  transition: 0.5s;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.instructions>svg {
+  margin-right: 0.25rem;
+}
+.offscreen>svg{
+  margin-right: 0.25rem;
+}
+.hide {
+  display: none;
+}
+
+.valid {
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+.invalid {
+  color: rgb(217, 15, 15);
+  margin-left: 0.25rem;
+}
+
+.instructions {
+  font-size: 12px;
+  border-radius: 0.5rem;
+  transition: 0.5s;
+  background: none;
+  color: rgb(217, 15, 15);
+  position: relative;
+  bottom: -5px;
+}
+
+body::-webkit-scrollbar {
+  width: 5px;              
+}
+body::-webkit-scrollbar-track {
+  background: $background-body;       
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: $primary-color;  
+  border-radius: 10px;   
 }

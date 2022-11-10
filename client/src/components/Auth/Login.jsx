@@ -3,6 +3,9 @@ import axios from '../../api/axios';
 import SpinnerLoading from "../Other/Spinner";
 import {useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
 const LOGIN_URL = '/api/auth/login';
 const Login = () => {
     const { setAuth } = useAuth();
@@ -30,6 +33,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            console.log(user, pwd);
             setLoading(true);
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify({ login: user, password: pwd }),
@@ -48,8 +52,8 @@ const Login = () => {
             setUser('');
             setPwd('');
             setLoading(false);
-            navigate(from, {replace: true});
-            document.location.reload();
+            // navigate(from, {replace: true});
+            // document.location.reload();
         }
         catch (err) {
             setLoading(false);
@@ -72,14 +76,15 @@ const Login = () => {
 
     }
     return (
-        <section className='login bg-dark text-white center'>
+        <div className="form-background p-5 d-flex justify-content-center">
+        <section className='login bg-dark text-white rounded d-flex flex-column p-3 justify-content-center'>
         <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-        <h1>Вхід</h1>
-        <form onSubmit={handleSubmit}>
-            <label className="form_label" htmlFor="login">Логін:</label>
-            <input
+        <h1 className="text-center">Вхід</h1>
+        <form onSubmit={handleSubmit} className="d-flex flex-column justify-content-center">
+            <Form.Label className="form_label " htmlFor="login">Логін:</Form.Label>
+            <Form.Control
                 type="text"
-                className="form__field"
+                className="bg-dark text-white"
                 id="login"
                 ref={userRef}
                 autoComplete="off"
@@ -87,26 +92,29 @@ const Login = () => {
                 value={user}
                 required
             />
-            <label className="login-lbl" htmlFor="password">Пароль:</label>
-            <input
+            <Form.Label className="login-lbl mt-3 " htmlFor="password">Пароль:</Form.Label>
+            <Form.Control
                 type="password"
-                className="form__field"
+                className="bg-dark text-white"
                 id="password"
                 onChange={(e) => setPwd(e.target.value)}
                 value={pwd}
                 required
             />
-            <button className="login-btn" disabled={isLoading}>{isLoading ? <SpinnerLoading /> : 'Вхід'}</button>
+            <Button  variant="secondary" type="submit" className="login-btn rounded mt-4" disabled={isLoading}>{isLoading ? <SpinnerLoading /> : 'Вхід'}</Button >
         </form>
      
-        <p>
-            В тебе немає аккаунту? <a href="/registration">Зареєструватись</a>
-        </p>
+        <div className="d-flex mt-3">
+            <p className="m-1">В тебе немає аккаунту?</p> 
+            <Nav.Link className="m-1" href="/registration">Зареєструватись</Nav.Link>
+        </div>
         
-        <p>
-            Забули пароль? <a href="/reset-password">Відновити пароль</a>
-        </p>
+        <div  className="d-flex">
+            <p className="m-1">Забули пароль?</p>  
+            <Nav.Link className="m-1" href="/reset-password">Відновити пароль</Nav.Link>
+        </div>
     </section>
+    </div>
       );
 }
 

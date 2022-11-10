@@ -11,10 +11,11 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 const Header = () => {
     return (
+      <div>
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Container>
+        <Container >
             <img src={logo} height={40} alt='logo'/>
-          <Navbar.Brand href="#home">AnonCHRNS</Navbar.Brand>
+          <Navbar.Brand href="/">AnonCHRNS</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
@@ -34,13 +35,14 @@ const Header = () => {
             </Nav>
             <Nav>
               <Nav.Link href="/login">Login</Nav.Link>
-              <Nav.Link eventKey={2} href="#memes">
+              <Nav.Link eventKey={2} href="/registration">
                Registration
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      </div>
     )
 }
 export default Header;
