@@ -6,16 +6,16 @@ import App from './components/App';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthProvider';
 
-import { EightBaseApolloClient } from '@8base/apollo-client';
+// import { EightBaseApolloClient } from '@8base/apollo-client';
 
-import { ApolloProvider } from 'react-apollo-hooks';
+// import { ApolloProvider } from 'react-apollo-hooks';
 
-const URI = 'https://api.8base.com/cjvuk51i0000701s0hvvcbnxg';
+// const URI = 'https://api.8base.com/cjvuk51i0000701s0hvvcbnxg';
 
-const apolloClient = new EightBaseApolloClient({
-  uri: URI,
-  withAuth: false
-});
+// const apolloClient = new EightBaseApolloClient({
+//   uri: URI,
+//   withAuth: false
+// });
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -23,11 +23,11 @@ root.render(
 	<BrowserRouter>
 	{/* <Provider store={store}> */}
 	<AuthProvider >
-	<ApolloProvider client={apolloClient}>
+	{/* <ApolloProvider client={apolloClient}> */}
        <Routes>
         <Route path='/*' element={<App />} />
         </Routes>
-		</ApolloProvider>
+	{/* /	</ApolloProvider> */}
     </AuthProvider>
 	{/* </Provider> */}
 	</BrowserRouter>

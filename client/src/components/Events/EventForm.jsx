@@ -1,7 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 
-import {useCreateUpdateMutation, useDeleteMutation} from './eventMutationHooks'
+  // import {useCreateUpdateMutation, useDeleteMutation} from './eventMutationHooks'
 import 'react-datepicker/dist/react-datepicker.css';
 
 import '../../css/Event.css'
@@ -17,19 +17,19 @@ const EventForm = ({ event, closeModal }) => {
 
   const eventExists = !!event.title;
 
-  const createUpdateEvent = useCreateUpdateMutation(
-    payload,
-    event,
-    eventExists,
-    () => closeModal()
-  );
-  const deleteEvent = useDeleteMutation(event, () => closeModal());
+  // const createUpdateEvent = useCreateUpdateMutation(
+  //   payload,
+  //   event,
+  //   eventExists,
+  //   () => closeModal()
+  // );
+  // const deleteEvent = useDeleteMutation(event, () => closeModal());
 
   return (
     <form
       onSubmit={e => {
         e.preventDefault();
-        createUpdateEvent();
+        // createUpdateEvent();
       }}
     >
       <fieldset>
@@ -113,7 +113,7 @@ const EventForm = ({ event, closeModal }) => {
                 <input
                   className="button-danger"
                   type="button"
-                  onClick={deleteEvent}
+                  // onClick={deleteEvent}
                   value="Delete"
                 />
               </div>

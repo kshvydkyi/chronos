@@ -1,9 +1,9 @@
 import React from 'react'
-import '../../css/Calendar.css'
+import '../../css/Calendar.scss'
 
 import { Calendar, momentLocalizer  } from 'react-big-calendar' 
 import moment from 'moment';
-import { useQuery } from 'react-apollo-hooks';
+// import { useQuery } from 'react-apollo-hooks';
 
 import EventPopover from '../Events/EventPopover';
 import EventModal from '../Events/EventModal';
@@ -13,6 +13,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 
 const localizer = momentLocalizer(moment)
+
+
 
 const transformItems = eventsList =>
   eventsList.items.map(item => {
@@ -25,26 +27,58 @@ const transformItems = eventsList =>
     };
   });
 
+const BASE_CALENDAR_URL = "https://www.googleapis.com/calendar/v3/calendars";
+const BASE_CALENDAR_ID_FOR_PUBLIC_HOLIDAY ="holiday@group.v.calendar.google.com"; 
+const API_KEY = "AIzaSyBmzeX-SoCjmUgrPhdM26nDZ2biIkHukCA";
+const CALENDAR_REGION = "uk.ukrainian"; 
+
+
 const CalendarComp = () => {
   const [selectedStartDate, setSelectedStartDate] = React.useState(new Date());
   const [selectedEndDate, setSelectedEndDate] = React.useState(new Date());
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [holidays, setHolidays] = React.useState([]);
 
-  const { data, error, loading } = useQuery(EVENTS_QUERY);
-  if (error) return console.log(error);
-  if (loading)
-    return (
-      <div className="calendar">
-        <p>Loading...</p>
-      </div>
-    );
+  const url = `${BASE_CALENDAR_URL}/${CALENDAR_REGION}%23${BASE_CALENDAR_ID_FOR_PUBLIC_HOLIDAY}/events?key=${API_KEY}`
+
+React.useEffect(() => {
+  fetch(url).then(response => response.json()).then(data => {
+    setHolidays(data.items);
+  })
+} , []) 
+
+React.useEffect(() => {
+    const transformHolidays = (holidays) => {
+      for(let i = 0; i < holidays.length;i++) {
+        return {
+          summary: holidays[i].summary,
+          start: new Date(holidays[i].start.date),
+          end: new Date(holidays[i].start.date)
+        };
+      }
+    }
+} , []) 
+
+
+
+
+
+  // const { data, error, loading } = (EVENTS_QUERY);
+  // if (error) return console.log(error);
+  // if (loading)
+  //   return (
+  //     <div className="calendar">
+  //       <p>Loading...</p>
+  //     </div>
+  //   );
 
   return (
+    <div className="form-background">
     <div className="calendar">
       <div style={{ height: '100vh' }}>
         <Calendar
           localizer={localizer}
-          events={transformItems(data.eventsList)}
+          // events={transformHolidays(holidays)}
           components={{ event: EventPopover }}
           showMultiDayTimes
           selectable
@@ -67,6 +101,7 @@ const CalendarComp = () => {
           }}
         />
       </div>
+    </div>
     </div>
   );
 };

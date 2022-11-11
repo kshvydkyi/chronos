@@ -1,13 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
+
+$primary-color: rgb(56, 56, 56);
+$background-body:  #15171a;
+$backgroun-black: #212529;
+$border-color: #484848;
+$today-color: #134725;
+$out-of-range: rgb(14, 14, 14);
+$text-color: white;
+$font-stack: 'PT Sans', sans-serif;
 
 .calendar {
-    border: 2px solid #f6f7fa;
+    border: 2px solid $border-color;
     border-radius: 6px;
     padding: 10px;
-    background-color: #ffffff;
+    font-family: 'PT Sans', sans-serif;
+    background-color: $background-body;
+    color: rgb(209, 209, 209);
   }
   
   .calendar .rbc-off-range-bg {
-    background-color: #f1f1f1;
+    background-color: $border-color;
   }
   
   .calendar .rbc-date-cell {
@@ -16,19 +28,19 @@
   }
   
   .calendar .rbc-month-view {
-    border: 2px solid #f6f7fa;
+    border: 2px solid $border-color;
   }
   
   .calendar .rbc-day-bg + .rbc-day-bg {
-    border: 1px solid #f6f7fa;
+    border: 1px solid $border-color;
   }
   
   .calendar row {
-    border: 1px solid #f6f7fa;
+    border: 1px solid $border-color;
   }
   
   .calendar .rbc-month-row + .rbc-month-row {
-    border-top: 1px solid #f6f7fa;
+    border-top: 1px solid $border-color;
   }
   
   .calendar .rbc-date-cell > a {
@@ -46,7 +58,7 @@
   }
   
   .calendar .rbc-today {
-    background-color: #e8effa;
+    background-color: $today-color;
   }
   
   .calendar .rbc-header + .rbc-header {
@@ -61,18 +73,24 @@
   }
   
   .Popover-tip {
-    fill: #ffffff;
+    fill: #684242;
     stroke: #f6f7fa;
     stroke-width: 2px;
   }
   
   .Popover-body {
-    border: 2px solid #f6f7fa;
+    border: 2px solid #2e4486;
     padding: 10px 5px;
-    background-color: #ffffff;
+    background-color: #952828;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
   }
   
   .Popover, .ReactModal__Overlay{
     z-index: 1000;
   }
+  .calendar .rbc-off-range-bg {
+    background-color: $out-of-range;
+  }
+.calendar .rbc-btn-group>button{
+    color: white;
+}
