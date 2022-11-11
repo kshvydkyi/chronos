@@ -8,14 +8,14 @@ class Auth {
            const data = {
                     login: body.login,
                     password: body.password,
-                    confirm_password: body.confirmPassword,
-                    full_name: body.full_name,
+                    confirm_password: body.password,
+                    full_name: body.fullName,
                     about_me: "",
                     photo: "default_avatar.png",
                     email: body.email,
                     role_id: 1,
                 };
-            
+            return await User.create(data);
         } catch (err) {
             console.log(err);
         }

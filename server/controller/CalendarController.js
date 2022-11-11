@@ -1,10 +1,10 @@
 import status from '../settings/response.js'
-import Category from '../models/Category.js';
+import Calendar from '../models/Calendar.js';
 
-class CategoryController {
+class CalendarController {
     async select_all(req, res, next) {
         try{
-            const result = await Category.select_all();
+            const result = await Calendar.select_all();
             status(200, {result}, res);
         }
         catch(err){
@@ -14,8 +14,8 @@ class CategoryController {
 
     async select_by_id(req, res, next) {
         try{
-            var category_id = req.params.category_id;
-            const result = await Category.select_by_id(category_id);
+            var calendar_id = req.params.calendar_id;
+            const result = await Calendar.select_by_id(calendar_id);
             status(200, {result}, res);
         }
         catch(err){
@@ -25,7 +25,7 @@ class CategoryController {
     
     async create(req, res, next) {
         try{
-            const result = await Category.create(req.body);
+            const result = await Calendar.create(req.body);
             status(200, {result}, res);
         }
         catch(err){
@@ -35,8 +35,8 @@ class CategoryController {
 
     async delete_by_id(req, res, next) {
         try{
-            var category_id = req.params.category_id;
-            const result = await Category.delete_by_id(category_id);
+            var calendar_id = req.params.calendar_id;
+            const result = await Calendar.delete_by_id(calendar_id);
             status(200, {result}, res);
         }
         catch(err){
@@ -45,4 +45,4 @@ class CategoryController {
     }
 }
 
-export default new CategoryController();
+export default new CalendarController();

@@ -55,10 +55,10 @@ class AuthController {
                     sendEmail.send(email, token, 'activate');
                     status(200, {message:`Confirmation for ${login} send on email`}, res);
                 }
-                catch (e){
+                catch (e) {
                     status(500, {message: `${e}`}, res);
                 }
-            } else{
+            } else {
                 status(400, {message: `Email - ${email} invalid`}, res)
             }
         }
@@ -68,10 +68,8 @@ class AuthController {
     }
 
     async login(req, res, next) {
-        try{
+        try {
             const result = await Auth.login(req.body);
-            status(200, {result}, res);
-      
             const {login, password} = req.body;
             const isExistUser = await User.isLoginExist(login);
             if(!isExistUser){
@@ -110,8 +108,8 @@ class AuthController {
     async activeEmail(req, res, next) {
         const {token} = req.params;
         try{
-           const userData = jwt.verify(token, "jwt-key");
-           await User.register(userData);
+            const userData = jwt.verify(token, "jwt-key");
+            await Auth.register(userData);
             status(201, {message:`User ${userData.login} registered`}, res);
         }
         catch (e){

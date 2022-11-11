@@ -25,6 +25,7 @@ class UserController {
 
     async create(req, res, next) {
         try{
+            req.body.password = await hash_password(req.body.password);
             const result = await User.create(req.body);
             status(200, {result}, res);
         }
@@ -52,6 +53,5 @@ class UserController {
             next(err);
         }
     }
-
 }
- export default new UserController();
+export default new UserController();

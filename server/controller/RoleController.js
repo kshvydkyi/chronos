@@ -14,7 +14,7 @@ class RoleController {
 
     async select_by_id(req, res, next) {
         try{
-            var user_id = req.params.role_id;
+            var role_id = req.params.role_id;
             const result = await Role.select_by_id(role_id);
             status(200, {result}, res);
         }

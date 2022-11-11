@@ -4,9 +4,9 @@ $primary-color: rgb(56, 56, 56);
 $background-body:  #15171a;
 $backgroun-black: #212529;
 $border-color: #484848;
-$today-color: #134725;
+$today-color: #051326;
 $out-of-range: rgb(14, 14, 14);
-$text-color: white;
+$text-color: rgb(192, 192, 192);
 $font-stack: 'PT Sans', sans-serif;
 
 .calendar {
@@ -15,7 +15,7 @@ $font-stack: 'PT Sans', sans-serif;
     padding: 10px;
     font-family: 'PT Sans', sans-serif;
     background-color: $background-body;
-    color: rgb(209, 209, 209);
+    color: $text-color;
   }
   
   .calendar .rbc-off-range-bg {
@@ -91,6 +91,54 @@ $font-stack: 'PT Sans', sans-serif;
   .calendar .rbc-off-range-bg {
     background-color: $out-of-range;
   }
+  // .calendar .rbc-header{
+  //   border-color: $border-color;
+  // }
 .calendar .rbc-btn-group>button{
-    color: white;
+    color: $text-color;
+    background-color: $border-color;
+    border-color: $border-color;
+}
+.calendar .rbc-time-view {
+  border-color: $border-color;
+}
+ .calendar .rbc-events-container{
+  border-color: $border-color;
+ }
+ .calendar .rbc-timeslot-group{
+  border-color: $border-color;
+ }
+ .calendar .rbc-time-slot{
+  border-color: $border-color;
+ }
+ .calendar .rbc-day-slot {
+  border-color: $border-color;
+ }
+ .calendar .rbc-time-column{
+  border-color: $border-color;
+ }
+ 
+ .calendar .rbc-day-bg{
+  border-color: $border-color;
+ }
+ .calendar .rbc-day-slot .rbc-time-slot{
+  border-color: $border-color;
+ }
+ .calendar .rbc-time-content{
+  border-color: $border-color;
+ }
+ 
+ .rbc-time-content::-webkit-scrollbar {
+  width: 5px;              
+}
+.rbc-time-content::-webkit-scrollbar-track {
+  background: $background-body;       
+}
+
+.rbc-time-content::-webkit-scrollbar-thumb {
+  background-color: $primary-color;  
+  border-radius: 10px;   
+}
+.calendar .rbc-time-header .rbc-overflowing{
+  margin-right: 3px;
 }

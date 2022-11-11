@@ -26,12 +26,11 @@ class User {
 
     async create(body) {
         try {
-            const password = await hash_password(body.password);
             var sql = `INSERT INTO users
             (login, password, full_name, about_me, photo, email, role_id)
             VALUES
             (${body.login},
-            ${password},
+            ${body.password},
             ${body.full_name},
             ${body.about_me},
             ${body.photo},
@@ -68,5 +67,17 @@ class User {
             console.log(e);
         }
 	}
+    
+    async isLoginExist(login) {
+        var sql = `SELECT * FROM users WHERE login = '${login}'`;
+        const [row] = await dbConnection.execute(sql);
+        return row.length !== 0;
+    }
+
+    async isEmailExist(email) {
+        var sql = `SELECT * FROM users WHERE email = '${email}'`;
+        const [row] = await dbConnection.execute(sql);
+        return row.length !== 0;
+    }
 }
 export default new User();
