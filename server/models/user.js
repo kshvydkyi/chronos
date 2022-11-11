@@ -1,4 +1,5 @@
 import db from '../db/db.js';
+import hash_password from '../utils/hash_password.js';
 
 class User {
     async select_all() {

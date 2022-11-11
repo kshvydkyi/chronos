@@ -1,25 +1,74 @@
 import React from 'react'
 import '../../css/Calendar.css'
-import CalendarComp from "@ericz1803/react-google-calendar"
 
-const API_KEY = "AIzaSyBmzeX-SoCjmUgrPhdM26nDZ2biIkHukCA";
-let calendars = [
-  {calendarId: "09opmkrjova8h5k5k46fedmo88@group.calendar.google.com", color: "#B241D1"}, //add a color field to specify the color of a calendar
-  {calendarId: "hkr1dj9k6v6pa79gvpv03eapeg@group.calendar.google.com"}, //without a specified color, it defaults to blue (#4786ff)
-  {calendarId: "rg4m0k607609r2jmdr97sjvjus@group.calendar.google.com", color: "rgb(63, 191, 63)"} //accepts hex and rgb strings (doesn't work with color names)
-];
+import { Calendar, momentLocalizer  } from 'react-big-calendar' 
+import moment from 'moment';
+import { useQuery } from 'react-apollo-hooks';
 
-const Calendar = () => { 
-    
-    return(
-    <>
-    <div className="form-background d-flex justify-content-center text-white">
-        <div className='d-flex flex-column'>
-        <CalendarComp apiKey={API_KEY} calendars={calendars} />
-        </div>
-        </div>
-    </>
- )
-}
+import EventPopover from '../Events/EventPopover';
+import EventModal from '../Events/EventModal';
+import { EVENTS_QUERY } from '../queries';
 
-export default Calendar;
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+
+
+const localizer = momentLocalizer(moment)
+
+const transformItems = eventsList =>
+  eventsList.items.map(item => {
+    return {
+      ...item,
+      email: item.email || '',
+      description: item.description || '',
+      start: new Date(item.startAt),
+      end: new Date(item.endAt)
+    };
+  });
+
+const CalendarComp = () => {
+  const [selectedStartDate, setSelectedStartDate] = React.useState(new Date());
+  const [selectedEndDate, setSelectedEndDate] = React.useState(new Date());
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const { data, error, loading } = useQuery(EVENTS_QUERY);
+  if (error) return console.log(error);
+  if (loading)
+    return (
+      <div className="calendar">
+        <p>Loading...</p>
+      </div>
+    );
+
+  return (
+    <div className="calendar">
+      <div style={{ height: '100vh' }}>
+        <Calendar
+          localizer={localizer}
+          events={transformItems(data.eventsList)}
+          components={{ event: EventPopover }}
+          showMultiDayTimes
+          selectable
+          onSelectSlot={({ start, end }) => {
+            setSelectedStartDate(start);
+            setSelectedEndDate(end);
+            setIsModalOpen(true);
+          }}
+        />
+
+        <EventModal
+          isOpen={isModalOpen}
+          closeModal={() => setIsModalOpen(false)}
+          event={{
+            startAt: selectedStartDate,
+            endAt: selectedEndDate,
+            title: '',
+            email: '',
+            description: ''
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default CalendarComp;

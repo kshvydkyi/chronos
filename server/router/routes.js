@@ -1,4 +1,3 @@
-
 import express from 'express'
 
 import UserController from '../controller/UserController.js'
@@ -22,6 +21,7 @@ router.get('/users/:user_id', UserController.select_by_id);
 router.post('/users', UserController.create);
 router.delete('/users/:user_id', UserController.delete_by_id);
 router.patch('/users/avatar/:access_token', upload_Avatar_Image.single('image'), UserController.update_avatar);
+
 //roles
 router.get('/roles', RoleController.select_all);
 router.get('/roles/:role_id', RoleController.select_by_id);

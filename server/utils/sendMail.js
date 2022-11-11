@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-class SendMail {
+class SendMail { 
     constructor(userEmail) {
         // this.from = 'usof.confirmation.kh@gmail.com';
         // this.password = 'vzfcmyxpzdahbnmv';
