@@ -11,7 +11,7 @@ const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const FULLNAME_REGEX = /^['а-яА-ЯїЇґҐіІєЄa-zA-Z\s]{2,24}$/
-const REGISTER_URL = '/api/auth/registration';
+const REGISTER_URL = '/api/auth/register';
 
 const Register = () => {
     const userRef = useRef();
@@ -80,19 +80,20 @@ const Register = () => {
         try {
             setLoading(true);
             console.log( user, email, fullName, pwd, matchPwd);
-            // const response = await axios.post(REGISTER_URL,
-            //     JSON.stringify({ login: user, email: email, fullName: fullName, password: pwd, passwordConfirmation: matchPwd }),
-            //     {
-            //         headers: { 'Content-Type': 'application/json' },
-            //         withCredentials: true
-            //     }
-            // );
-            // console.log(response?.data.status, response?.data.values.message);
+            const response = await axios.post(REGISTER_URL,
+                JSON.stringify({ login: user, email: email, fullName: fullName, password: pwd, passwordConfirmation: matchPwd }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            );
+            console.log(response);
             setSuccess(true);
             setLoading(false);
         }
         catch (err) {
             setLoading(false);
+            console.log(err)
             if (!err?.response) {
                 setErrMsg('Сервер спить, вибачте');
             }

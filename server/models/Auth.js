@@ -10,7 +10,6 @@ class Auth {
                     password: body.password,
                     confirm_password: body.password,
                     full_name: body.fullName,
-                    about_me: "",
                     photo: "default_avatar.png",
                     email: body.email,
                     role_id: 1,
@@ -21,13 +20,16 @@ class Auth {
         }
     }
 
-    async login(body) {
+    async login(login) {
         try {
-
+            const sql = `SELECT users.id, users.login, users.password, roles.title FROM users, roles WHERE users.login = '${login}' AND users.role_id = roles.id`;
+            const [row] = await db.execute(sql);
+            return row;
         } catch (err) {
             console.log(err);
         }
     }
+
     async logout() {
         try {
 

@@ -15,7 +15,8 @@ const router = express.Router();
 //auth
 router.post('/auth/register', AuthController.register);
 router.post('/auth/login', AuthController.login);
-router.post('/auth/logout', AuthController.logout);
+router.post('/auth/logout/:token', AuthController.logout);
+router.get('/auth/active/:token', AuthController.activeEmail);
 
 //users
 router.get('/users', UserController.select_all);

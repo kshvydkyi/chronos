@@ -20,7 +20,7 @@ const Login = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || '/posts/?page=1'
+    const from = location.state?.from?.pathname || '/calendar'
 
     useEffect(() => {
         userRef.current.focus();
@@ -52,8 +52,8 @@ const Login = () => {
             setUser('');
             setPwd('');
             setLoading(false);
-            // navigate(from, {replace: true});
-            // document.location.reload();
+            navigate(from, {replace: true});
+            document.location.reload();
         }
         catch (err) {
             setLoading(false);

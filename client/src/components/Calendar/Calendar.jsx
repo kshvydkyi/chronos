@@ -12,20 +12,18 @@ import { EVENTS_QUERY } from '../queries';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 
-const localizer = momentLocalizer(moment)
-
-
+const localizer = momentLocalizer(moment);
 
 const transformItems = eventsList =>
-  eventsList.items.map(item => {
-    return {
-      ...item,
-      email: item.email || '',
-      description: item.description || '',
-      start: new Date(item.startAt),
-      end: new Date(item.endAt)
-    };
-  });
+	eventsList.items.map(item => {
+		return {
+		...item,
+		email: item.email || '',
+		description: item.description || '',
+		start: new Date(item.startAt),
+		end: new Date(item.endAt)
+		};
+});
 
 const BASE_CALENDAR_URL = "https://www.googleapis.com/calendar/v3/calendars";
 const BASE_CALENDAR_ID_FOR_PUBLIC_HOLIDAY ="holiday@group.v.calendar.google.com"; 
@@ -41,25 +39,20 @@ const CalendarComp = () => {
 
   const url = `${BASE_CALENDAR_URL}/${CALENDAR_REGION}%23${BASE_CALENDAR_ID_FOR_PUBLIC_HOLIDAY}/events?key=${API_KEY}`
 
+const transformItems = holidays =>
+holidays.map(item => {
+		return {
+		title: item.summary,
+		end: moment(item.end.date, moment.defaultFormat).toDate(),
+		start: moment(item.start.date, moment.defaultFormat).toDate(),
+		};
+});
+
 React.useEffect(() => {
   fetch(url).then(response => response.json()).then(data => {
     setHolidays(data.items);
   })
 } , []) 
-
-React.useEffect(() => {
-    const transformHolidays = (holidays) => {
-      for(let i = 0; i < holidays.length;i++) {
-        return {
-          summary: holidays[i].summary,
-          start: new Date(holidays[i].start.date),
-          end: new Date(holidays[i].start.date)
-        };
-      }
-    }
-} , []) 
-
-
 
 
 
@@ -72,13 +65,20 @@ React.useEffect(() => {
   //     </div>
   //   );
 
+
+
+
+
   return (
     <div className="form-background">
     <div className="calendar">
       <div style={{ height: '100vh' }}>
         <Calendar
           localizer={localizer}
-          // events={transformHolidays(holidays)}
+          // Events={transformItems("")}
+          events={transformItems(holidays)}
+          startAccessor="start"
+          endAccessor="end"
           components={{ event: EventPopover }}
           showMultiDayTimes
           selectable

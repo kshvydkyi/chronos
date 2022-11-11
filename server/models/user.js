@@ -26,16 +26,7 @@ class User {
 
     async create(body) {
         try {
-            var sql = `INSERT INTO users
-            (login, password, full_name, about_me, photo, email, role_id)
-            VALUES
-            (${body.login},
-            ${body.password},
-            ${body.full_name},
-            ${body.about_me},
-            ${body.photo},
-            ${body.email},
-            ${body.role_id})`;
+            var sql = `INSERT INTO users (login, password, full_name, photo, email, role_id) VALUES ('${body.login}', '${body.password}', '${body.full_name}', '${body.photo}', '${body.email}', ${body.role_id})`;
             const [row] = await db.execute(sql);
             const jsonContent = JSON.stringify(row);
             return jsonContent;
@@ -48,7 +39,7 @@ class User {
 	{
         try {
 			var sql = `DELETE FROM users WHERE id = ${id}`;
-			const [row] = await dbConnection.execute(sql);
+			const [row] = await db.execute(sql);
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {
@@ -60,7 +51,7 @@ class User {
 	{
         try {
 			var sql = `UPDATE users SET photo = '${path}' WHERE id = ${user_id}`;
-            const [row] = await dbConnection.execute(sql);
+            const [row] = await db.execute(sql);
             const jsonContent = JSON.stringify(row);
 			return jsonContent;
         } catch (e) {
@@ -70,13 +61,13 @@ class User {
     
     async isLoginExist(login) {
         var sql = `SELECT * FROM users WHERE login = '${login}'`;
-        const [row] = await dbConnection.execute(sql);
+        const [row] = await db.execute(sql);
         return row.length !== 0;
     }
 
     async isEmailExist(email) {
         var sql = `SELECT * FROM users WHERE email = '${email}'`;
-        const [row] = await dbConnection.execute(sql);
+        const [row] = await db.execute(sql);
         return row.length !== 0;
     }
 }

@@ -6,14 +6,12 @@ import EmailValidator from 'email-deep-validator'
 import status from '../settings/response.js'
 import Auth from '../models/Auth.js'
 import User from '../models/User.js'
-import sendEmail from '../utils/sendMail.js'
+import sendMail from '../utils/sendMail.js'
 import hash_password from '../utils/hash_password.js';
 
 class AuthController {
     async register(req, res, next) {
         try{
-            const result = await Auth.register(req.body);
-            status(200, {result}, res);
             const {
                 login,
                 password,
@@ -40,7 +38,6 @@ class AuthController {
             else if(checkPass.passwordStrength(password).value === 'Too weak' || checkPass.passwordStrength(password).value === 'Weak'){
                 return status(400, {message: 'The password is too easy'}, res);
             }
-
             const emailValidator = new EmailValidator();
             const { wellFormed, validDomain, validMailbox } = await emailValidator.verify(email);
             if(wellFormed && validMailbox && validDomain){
@@ -52,11 +49,11 @@ class AuthController {
                         fullName, 
                         email
                     }, "jwt-key", {expiresIn: '15m'});
-                    sendEmail.send(email, token, 'activate');
+                    sendMail.send(email, token, 'activate');
                     status(200, {message:`Confirmation for ${login} send on email`}, res);
                 }
-                catch (e) {
-                    status(500, {message: `${e}`}, res);
+                catch (err) {
+                    status(500, {message: `${err}`}, res);
                 }
             } else {
                 status(400, {message: `Email - ${email} invalid`}, res)
@@ -69,26 +66,26 @@ class AuthController {
 
     async login(req, res, next) {
         try {
-            const result = await Auth.login(req.body);
             const {login, password} = req.body;
             const isExistUser = await User.isLoginExist(login);
-            if(!isExistUser){
+            if (!isExistUser) {
                 return status(409, {message:`User with login - ${login} does not exist`}, res);
             }
             const userData = await Auth.login(login);
-            if((await hash_password(password) == userData[0].password)){
+            const hash = await hash_password(password);
+            if ((hash == userData[0].password)) {
                 const token = jwt.sign({
                     userId: userData[0].id,
                     login: userData[0].login,
-                    role: userData[0].role
+                    role: userData[0].title
                 }, "jwt-key", {expiresIn: '30d'});
-                status(200, {token: `${token}`,  role: userData[0].role, userId: userData[0].id}, res)
+                status(200, {token: `${token}`, role: userData[0].title, userId: userData[0].id}, res)
             }
-            else{
+            else {
                 status(422, {message: `Passwords do not match`}, res);
             }
         }
-        catch(err){
+        catch(err) {
             next(err);
         }
     }
@@ -126,7 +123,7 @@ class AuthController {
                     const token = jwt.sign({
                         id, login
                     }, "jwt-key", {expiresIn: '15m'});
-                    sendEmail.send(email, token);
+                    sendMail.send(email, token);
                     status(200, {message:`Reset link for ${email} send on email`}, res);
                 }
                 catch (e){

@@ -35,7 +35,7 @@ class Role {
 	{
         try {
 			var sql = `DELETE FROM roles WHERE id = ${id}`;
-			const [row] = await dbConnection.execute(sql);
+			const [row] = await db.execute(sql);
             const jsonContent = JSON.stringify(row);
             return jsonContent;
         } catch (e) {

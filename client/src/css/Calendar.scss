@@ -4,11 +4,15 @@ $primary-color: rgb(56, 56, 56);
 $background-body:  #15171a;
 $backgroun-black: #212529;
 $border-color: #484848;
-$today-color: #051326;
+$today-color: #212529;
 $out-of-range: rgb(14, 14, 14);
 $text-color: rgb(192, 192, 192);
+$event-border-color: rgb(219, 183, 0);
 $font-stack: 'PT Sans', sans-serif;
-
+*{
+  margin: 0;
+  padding: 0;
+}
 .calendar {
     border: 2px solid $border-color;
     border-radius: 6px;
@@ -48,10 +52,10 @@ $font-stack: 'PT Sans', sans-serif;
   }
   
   .calendar .rbc-event {
-    background-color: #e8effa;
+    background-color: $backgroun-black;
     border-radius: 0;
-    color: #004fd4;
-    border-left: 2px solid #004fd4;
+    color: $text-color;
+    border-left: 2px solid $event-border-color;
     margin-left: -1px;
     font-size: 12px;
     font-weight: 600;
@@ -139,6 +143,44 @@ $font-stack: 'PT Sans', sans-serif;
   background-color: $primary-color;  
   border-radius: 10px;   
 }
-.calendar .rbc-time-header .rbc-overflowing{
-  margin-right: 3px;
+.calendar .rbc-time-view .rbc-overflowing{
+  margin-right: 3px !important;
+
+}
+.calendar div{
+  margin-right: 0px;
+}
+.rbc-current-time-indicator{
+  background-color: rgb(15, 232, 113) !important;
+}
+.rbc-agenda-table{
+  border-color: $border-color !important;
+}
+.rbc-agenda-table{
+  border-color: $border-color !important;
+}
+.rbc-header{
+  border-color: $border-color !important;
+}
+.rbc-agenda-date-cell{
+  border-color: $border-color !important;
+}
+.rbc-agenda-time-cell{
+  border-color: $border-color !important;
+}
+.rbc-agenda-event-cell{
+  border-color: $border-color !important;
+}
+.rbc-agenda-table{
+  border-color: $border-color !important;
+}
+.rbc-active{
+  background-color: $backgroun-black !important;
+  color: $text-color !important;
+  border-color: $backgroun-black !important;
+}
+.rbc-btn-group >button:hover{
+  background-color: $backgroun-black !important;
+  border-color: $backgroun-black !important;
+  color: $text-color !important;
 }
