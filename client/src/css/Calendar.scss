@@ -184,3 +184,51 @@ $font-stack: 'PT Sans', sans-serif;
   border-color: $backgroun-black !important;
   color: $text-color !important;
 }
+.ReactModal__Overlay--after-open{
+  background-color: #15171ac7 !important;
+}
+.ReactModal__Content{
+  background-color: $background-body !important;
+  color: $text-color !important;
+  border-color: $border-color !important;
+}
+.react-datepicker__input-container > input{
+  background-color: $backgroun-black !important;
+  border: none !important;
+  color: $text-color !important;
+  width: 100% !important;
+  text-align: center !important;
+  border: 2px solid $border-color !important;
+}
+.column > input{
+  background-color: $backgroun-black !important;
+  border: none !important;
+  color: $text-color !important;
+  width: 100% !important;
+  text-align: center !important;
+  border: 2px solid $border-color !important;
+}
+.column > textarea {
+  background-color: $backgroun-black !important;
+  border: none !important;
+  color: $text-color !important;
+  width: 100% !important;
+  text-align: center !important;
+  border: 2px solid $border-color !important;
+}
+.column > input[type="submit"]{
+  background-color: $border-color !important;
+  border: 1px solid $border-color !important;
+}
+
+.column > textarea::-webkit-scrollbar {
+    width: 5px;            
+}
+.column > textarea::-webkit-scrollbar-track {
+  background: $background-body;         
+  }
+  
+  .column > textarea::-webkit-scrollbar-thumb {
+    background-color: $primary-color;  
+  border-radius: 10px;     
+}
