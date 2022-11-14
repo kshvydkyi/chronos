@@ -36,6 +36,7 @@ const CalendarComp = () => {
   const [selectedEndDate, setSelectedEndDate] = React.useState(new Date());
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [holidays, setHolidays] = React.useState([]);
+  const [eventsList, setEventsList] = React.useState([]);
 
   const url = `${BASE_CALENDAR_URL}/${CALENDAR_REGION}%23${BASE_CALENDAR_ID_FOR_PUBLIC_HOLIDAY}/events?key=${API_KEY}`
 
@@ -48,23 +49,50 @@ holidays.map(item => {
 		};
 });
 
+
+
 React.useEffect(() => {
   fetch(url).then(response => response.json()).then(data => {
     setHolidays(data.items);
   })
 } , []) 
 
+React.useEffect(() => {
+  fetch('/api/events').then(response => response.json()).then(data => {
+    setEventsList(data.values.result);
+  })
+} , []) 
 
+const transformEvents = eventsList =>
+eventsList.map(item => {
+		return {
+		title: item.title,
+    description: item.description,
+    category: item.category_id,
+		end: moment(item.endAt, moment.defaultFormat).toDate(),
+		start: moment(item.startAt, moment.defaultFormat).toDate(),
+		};
+});
 
-  // const { data, error, loading } = (EVENTS_QUERY);
-  // if (error) return console.log(error);
-  // if (loading)
-  //   return (
-  //     <div className="calendar">
-  //       <p>Loading...</p>
-  //     </div>
-  //   );
+const [checked, setChecked] = React.useState([]);
+const checkList = ["Xui1", "Xui2", "Xui3", "Xui4"];
+const handleCheck = (event) => { // pizda
+  var updatedList = [...checked];
+  if (event.target.checked) {
+    updatedList = [...checked, event.target.value];
+  } else {
+    updatedList.splice(checked.indexOf(event.target.value), 1);
+  }
+  setChecked(updatedList);
+};
 
+const checkedItems = checked.length
+? checked.reduce((total, item) => {
+    return total + ", " + item;
+  })
+: "";
+
+let isChecked = (item) => checked.includes(item) ? "checked-item" : "not-checked-item";
 
 
   return (
@@ -76,11 +104,7 @@ React.useEffect(() => {
           defaultView='month'
           localizer={localizer}
           events={transformItems(holidays)}
-          backgroundEvents={[{
-            end: new Date('2022-11-13T21:45:00.000Z'),
-            start: new Date('2022-11-13T21:45:00.000Z'),
-            title: 'Насрать на лицо тимлиду',
-          }]}
+          backgroundEvents={transformEvents(eventsList)}
           startAccessor="start"
           endAccessor="end"
           components={{ event: EventPopover }}
@@ -91,7 +115,31 @@ React.useEffect(() => {
             setSelectedEndDate(end);
             setIsModalOpen(true);
           }}
+          eventPropGetter={(eventsList) => {
+            console.log(eventsList)
+            const backgroundColor = eventsList.category === 1 ? 'blue' : 'red';
+            const color = 'white';
+            return { style: { backgroundColor ,color} }
+          }}
         />
+
+    <div className="app">
+      <div className="checkList">
+        <div className="title">Events</div>
+        <div className="list-container">
+          {checkList.map((item, index) => (
+            <div key={index}>
+              <input value={item} type="checkbox" onChange={handleCheck} />
+              <span className={isChecked(item)}>{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        {`Items checked are: ${checkedItems}`}
+      </div>
+    </div>
 
         <EventModal
           isOpen={isModalOpen}

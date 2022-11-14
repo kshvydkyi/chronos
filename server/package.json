@@ -32,6 +32,7 @@
     "express-router": "^0.0.1",
     "fs": "^0.0.1-security",
     "googleapis": "^105.0.0",
+    "js-date-to-sql-datetime": "^1.2.7",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "multer": "^1.4.5-lts.1",

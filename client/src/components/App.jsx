@@ -12,7 +12,8 @@ import ResetPassword from './Auth/ResetPassword';
 import ResetPasswordWT from './Auth/ResetPasswordWT';
 import Calendar from './Calendar/Calendar';
 import ConfirmEmail from './Auth/ConfirmEmail';
-
+import User from './Users/User';
+import ChangeUserAvatar from './Users/ChangeAvatar'
 function App() {
 	if (!localStorage.getItem('autorized')) {
 		localStorage.setItem(
@@ -30,11 +31,14 @@ function App() {
 				<Route path="confirm-email/:token" element={<ConfirmEmail />} />
 				<Route path='reset-password' element={<ResetPassword/>} />
 				<Route path='reset-password/token' element={<ResetPasswordWT/>} />
-				<Route path='calendar' element={<Calendar/>} /> 
+				
 				{/* only authorized users */}
-				<Route element={<RequreAuth allowedRoles={['User', 'Admin']}/>} >
+				<Route element={<RequreAuth allowedRoles={['user', 'admin']}/>} >
+				<Route path='calendar' element={<Calendar/>} /> 
+				<Route path='user/:id' element={<User/>} />
+				<Route path='change-avatar' element={<ChangeUserAvatar />} />
 					</Route>
-				<Route element={<RequreAuth allowedRoles={['Admin']}/>} >
+				<Route element={<RequreAuth allowedRoles={['admin']}/>} >
 				</Route>
 				<Route path="*" element={<NotFound />} />
 				<Route path='500' element={<ServerError />} />

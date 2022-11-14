@@ -29,7 +29,7 @@ CREATE TABLE `calendars` (
   `title` varchar(100) NOT NULL,
   `user_id` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +38,7 @@ CREATE TABLE `calendars` (
 
 LOCK TABLES `calendars` WRITE;
 /*!40000 ALTER TABLE `calendars` DISABLE KEYS */;
+INSERT INTO `calendars` VALUES (1,'main',4);
 /*!40000 ALTER TABLE `calendars` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,7 +54,7 @@ CREATE TABLE `calendars_events` (
   `calendar_id` int NOT NULL,
   `event_id` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,6 +63,7 @@ CREATE TABLE `calendars_events` (
 
 LOCK TABLES `calendars_events` WRITE;
 /*!40000 ALTER TABLE `calendars_events` DISABLE KEYS */;
+INSERT INTO `calendars_events` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,5),(5,1,6),(6,1,7),(7,1,8);
 /*!40000 ALTER TABLE `calendars_events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,7 +78,7 @@ CREATE TABLE `categories` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -85,6 +87,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (1,'arrangement'),(2,'reminder'),(3,'task');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,9 +105,10 @@ CREATE TABLE `events` (
   `endAt` datetime NOT NULL,
   `description` varchar(500) NOT NULL,
   `allDay` tinyint NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `category_id` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,31 +117,8 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
+INSERT INTO `events` VALUES (1,'aboba','2022-11-14 23:00:00','2022-11-15 23:00:00','mraz',1,'dimadubinin11@gmail.com',1),(2,'new eevent','2022-11-22 23:00:00','2022-11-23 23:00:00','descr',1,'dimadubinin11@gmail.com',1),(3,'new eevent','2022-11-22 23:00:00','2022-11-23 23:00:00','descr',1,'dimadubinin11@gmail.com',1),(4,'aboba','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',2),(5,'Aboba','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',2),(6,'aboab','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',2),(7,'aboab','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',2),(8,'aboba','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',1);
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `events_categories`
---
-
-DROP TABLE IF EXISTS `events_categories`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `events_categories` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `event_id` int NOT NULL,
-  `category_id` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `events_categories`
---
-
-LOCK TABLES `events_categories` WRITE;
-/*!40000 ALTER TABLE `events_categories` DISABLE KEYS */;
-/*!40000 ALTER TABLE `events_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -182,7 +163,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   KEY `users_ibfk_1` (`role_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,7 +172,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1','1','1','1','1',1);
+INSERT INTO `users` VALUES (1,'1','1','1','1','1',1),(2,'login','56b7b7284a279678eac6d9fabf0210c0b48bfa1b3d1496d850c6c0a9ce7f62035df4f5fb19906212f8c370410a24ef301c1fb9889fbbe2ec03b12f4803b1aa54','dfas','kingkostyan887@gmail.com','default_avatar.png',1),(3,'kossyaak','56b7b7284a279678eac6d9fabf0210c0b48bfa1b3d1496d850c6c0a9ce7f62035df4f5fb19906212f8c370410a24ef301c1fb9889fbbe2ec03b12f4803b1aa54','kossyaak','kossyaak@gmail.com','default_avatar.png',1),(4,'Huesos','a4453c591828c6f5217cc039d87200baebfbebbafc21fc204f257d3925e919b3950767081c1c85433d82cf71a5c3107fc84f6019c2553f03d4f6b3ec3a9cb0b6','Huesos','dimadubinin11@gmail.com','default_avatar.png',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -204,4 +185,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-11 14:47:09
+-- Dump completed on 2022-11-14 14:12:48

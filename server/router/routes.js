@@ -21,9 +21,10 @@ router.get('/auth/active/:token', AuthController.activeEmail);
 //users
 router.get('/users', UserController.select_all);
 router.get('/users/:user_id', UserController.select_by_id);
+router.get('/users/check-token/:token', UserController.checkToken);
 router.post('/users', UserController.create);
 router.delete('/users/:user_id', UserController.delete_by_id);
-router.patch('/users/avatar/:access_token', upload_Avatar_Image.single('image'), UserController.update_avatar);
+router.patch('/users/avatar/:token', upload_Avatar_Image.single('image'), UserController.update_avatar);
 
 //roles
 router.get('/roles', RoleController.select_all);
@@ -39,7 +40,8 @@ router.delete('/categories/:category_id', CategoryController.delete_by_id);
 
 //events
 router.get('/events', EventController.select_all);
-router.get('/events/:event_id', EventController.select_by_id);
+router.get('/events/bycalendar/:calendar_id/:token', EventController.select_by_calendarid);
+router.get('/events/:event_id/:token', EventController.select_by_id);
 router.post('/events', EventController.create);
 router.delete('/events/:event_id', EventController.delete_by_id);
 

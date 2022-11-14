@@ -1,5 +1,8 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
+import axios from '../../api/axios';
 
   // import {useCreateUpdateMutation, useDeleteMutation} from './eventMutationHooks'
 import 'react-datepicker/dist/react-datepicker.css';
@@ -12,18 +15,47 @@ const EventForm = ({ event, closeModal }) => {
   const [title, setTitle] = React.useState(event.title);
   const [email, setEmail] = React.useState(event.email);
   const [description, setDescription] = React.useState(event.description);
+  const [category, setCateogry] = React.useState(event.category);
+  const [userEmail, setUserEmail] = React.useState();
 
-  const payload = { startAt, endAt, title, email, description };
+  const [checked, setChecked] = React.useState(false);
+
+  const navigate = useNavigate();
+
+  const handleChange = () => {
+    setChecked(!checked);
+  };
+
+  const payload = { startAt, endAt, title, email, description, category};
 
   const eventExists = !!event.title;
+  console.log("event title = ", event)
 
-  // const createUpdateEvent = useCreateUpdateMutation(
-  //   payload,
-  //   event,
-  //   eventExists,
-  //   () => closeModal()
-  // );
-  // const deleteEvent = useDeleteMutation(event, () => closeModal());
+  const currentUser = JSON.parse(localStorage.getItem('autorized'));
+
+  const getEmail = async() => {
+    const response = await axios.get(`/api/users/${currentUser.userId}`);
+    setUserEmail(response.data.values.result.email);
+  }
+
+  useEffect(() => {
+    getEmail();
+  }, [])
+
+
+  async function submitEvent() {
+      const response = await axios.post('/api/events',
+        JSON.stringify({ title: title, description: description, 
+          email: userEmail, endAt: endAt, startAt: startAt, category_id: category, 
+          allDay: 1, calendar_id: 1}),
+        {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true
+        }
+    );
+    console.log(category)
+    window.location.href="/calendar"
+  }
 
   return (
     <form
@@ -61,16 +93,16 @@ const EventForm = ({ event, closeModal }) => {
             </div>
           </div>
 
-          <div className="row">
+        <div className="row">
             <div className="column">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                placeholder="Where should I remind you?"
-                id="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
+              <label>
+                <input
+                type="checkbox"
+                checked={checked}
+                onChange={handleChange}
+                />
+                Send reminder to your email?
+             </label>
             </div>
           </div>
 
@@ -79,7 +111,7 @@ const EventForm = ({ event, closeModal }) => {
               <label htmlFor="title">Title</label>
               <input
                 type="text"
-                placeholder="What are you up to?"
+                placeholder="Title of event"
                 id="title"
                 value={title}
                 onChange={e => setTitle(e.target.value)}
@@ -88,10 +120,22 @@ const EventForm = ({ event, closeModal }) => {
           </div>
 
           <div className="row">
+            <div className="column ">
+              <label htmlFor="title">Category</label>
+              <select value={category} className="bg-dark text-white w-100 text-center" onChange={e => setCateogry(e.target.value)}>
+                <option value="1">arrangement</option>
+                <option value="2">reminder</option>
+                <option value="3">task</option>
+              </select>
+
+            </div>
+          </div> 
+
+          <div className="row">
             <div className="column">
               <label htmlFor="description">Description</label>
               <textarea
-                placeholder="Where? How? Zoom? Skype"
+                placeholder="Add description..."
                 id="description"
                 columns="50"
                 value={description}
@@ -105,6 +149,7 @@ const EventForm = ({ event, closeModal }) => {
               <input
                 className="button-primary"
                 type="submit"
+                onClick={() => submitEvent()}
                 value={eventExists ? 'Update' : 'Create'}
               />
             </div>

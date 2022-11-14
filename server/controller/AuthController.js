@@ -94,7 +94,6 @@ class AuthController {
         try{
             const {token} = req.params;
             const result = jwt.verify(token, "jwt-key");
-            await User.updateValues('tmp_token', null, result.userId);
             status(200, {message: `User with login ${result.login} logged out`}, res);
         }
         catch(err){

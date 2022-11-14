@@ -1,9 +1,9 @@
 const ServerError = () =>{
     return (
         <>
-        <div className='server-error-page'>
-            <p className='serverError'>505 iternal server error</p>
-            <p className='serverError'>Своїми діями ви розгнівали мудре містичне дерево. На цей раз, адміни все владнають. Але наступного разу поводьтесь чемно</p>
+        <div className='form-background p-5 d-flex flex-column justify-content-center text-white '>
+            <h1 className="text-center">505 iternal server error</h1>
+            <p className="text-center">Своїми діями ви розгнівали мудре містичне дерево. На цей раз, адміни все владнають. Але наступного разу поводьтесь чемно</p>
 
             
         </div>

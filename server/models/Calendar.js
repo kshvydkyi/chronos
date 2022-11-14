@@ -23,10 +23,10 @@ class Calendar {
     
     async create(body) {
         try {
-            // var sql = `INSERT INTO calendars (title) VALUES (${body.title}`;
-            // const [row] = await db.execute(sql);
-            // const jsonContent = JSON.stringify(row);
-            // return jsonContent;
+            var sql = `INSERT INTO calendars (title, user_id) VALUES ('${body.title}', ${body.user_id})`;
+            const [row] = await db.execute(sql);
+   
+            return row;
         } catch (err) {
             console.log(err);
         }

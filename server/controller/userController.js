@@ -1,5 +1,6 @@
 import status from '../settings/response.js'
 import User from '../models/User.js';
+import jwt from 'jsonwebtoken';
 
 class UserController {
     async select_all(req, res, next) {
@@ -46,12 +47,28 @@ class UserController {
         }
     }
 
-    async update_avatar(req, res, next) {   
+    async update_avatar(req, res, next) { 
+        const pathFile = req.file.filename;
+        const token = req.params.token;  
         try {
-            const result = await User.update_avatar(req.params.filename, '1');
+            const userData = jwt.verify(token, "jwt-key");
+            const result = await User.update_avatar(pathFile,  userData.userId);
             status(200, {result}, res);
         } catch (err) {
             next(err);
+        }
+    }
+    async checkToken(req, res, next){
+        const token = req.params.token;
+        try{
+            jwt.verify(token, 'jwt-key');
+            status(200, {message:`token alive`}, res);
+        }
+        catch(err){
+            console.log(err);
+            status(401, {message:`token dead`}, res);
+            next(err);
+           
         }
     }
 }

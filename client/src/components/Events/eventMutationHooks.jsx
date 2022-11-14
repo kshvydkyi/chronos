@@ -13,7 +13,7 @@ export const useCreateUpdateMutation = (payload, event, eventExists, done) => {
   const createData = payload;
   const updateData = { ...createData, id: event.id };
   const data = eventExists ? updateData : createData;
-
+  console.log("DATA", data)
   const transformCacheUpdateData = (eventsList, newData) => {
     const mutationResult = eventExists
       ? newData.eventUpdate

@@ -3,7 +3,8 @@
 // import { useNavigate } from 'react-router-dom';
 // import useAuth from '../../hooks/useAuth';
 import logo from '../../assets/images/icon.png'
-
+import Button from 'react-bootstrap/Button';
+import SpinnerLoading from "../Other/Spinner";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -17,12 +18,13 @@ import route from '../../api/route';
 const LOGOUT = '/api/auth/logout/'
 const checkToken = async (token, setAuth) => {
 	try {
-		const response = await axios.get(`/api/check-token/${token}`);
-		// console.log(response.data.status, response.data.values.message);
+		const response = await axios.get(`/api/users/check-token/${token}`);
+		console.log(response.data.status, response.data.values.message);
 	}
 	catch (e) {
 		// console.log(e);
 		if (e?.response.data.status === 401) {
+			localStorage.removeItem('autorized');
 			setAuth(false);
 		}
 	}
@@ -31,13 +33,13 @@ const Header = () => {
 	const { auth, setAuth } = useAuth();
 	const navigate = useNavigate();
 	const currentUser = JSON.parse(localStorage.getItem('autorized'));
-	console.log(currentUser);
-
+	// console.log(currentUser);
+	const [isLoading, setLoading] = useState(false);
 	const [userAvatar, setUserAvatar] = useState();
 	useEffect(() => {
 		if (currentUser.currentUser !== 'guest') {
 			if (auth) {
-				// checkToken(currentUser.accessToken, setAuth);
+				checkToken(currentUser.accessToken, setAuth);
 				if (currentUser) {
 					setAuth({ ...currentUser });
 				} else {
@@ -48,22 +50,24 @@ const Header = () => {
 	}, []);
 	const logout = async () => {
 		try {
-
+			setLoading(true)
 			const response = await axios.post(LOGOUT + currentUser.accessToken);
 			// console.log(response.data);
 			localStorage.removeItem('autorized');
 			setAuth(false);
+			setLoading(false);
 			navigate('/');
 
 		}
 		catch (e) {
+			setLoading(false);
 			navigate('/500');
 		}
 	}
 	const getUserInfo = async () => {
 		try {
 			const response = await axios.get(`/api/users/${currentUser.userId}`);
-			console.log('userAvatar', response);
+			// console.log('userAvatar', response);
 			setUserAvatar(response.data.values.result.photo);
 		}
 		catch (e) {
@@ -102,14 +106,16 @@ const Header = () => {
 						<Nav>
 							{auth.user ?
 								<>
-									<div className='d-flex'>
-                                <div className='d-flex '>
-                                    <Nav.Link className='header-user' href={`/user/${currentUser.userId}`}>{currentUser.user}</Nav.Link>
-                                    <img src={userAvatar && userAvatar !== 'undefined' && userAvatar !== undefined ? `${route.serverURL}/avatars/${userAvatar}` : `${route.serverURL}/avatars/default_avatar.png`} className='border border-secondary rounded-circle' height={40} width={40} alt='avatar' />
-                                </div>
-								</div>
+									<div className='d-flex align-items-center'>
+										<div className='d-flex '>
+											<Nav.Link className='link-header' href={`/user/${currentUser.userId}`}>{currentUser.user}</Nav.Link>
+											<img src={userAvatar && userAvatar !== 'undefined' && userAvatar !== undefined ? `${route.serverURL}/avatars/${userAvatar}` : `${route.serverURL}/avatars/default_avatar.png`} className='link-header border border-secondary rounded-circle' height={40} width={40} alt='avatar' />
+										</div>
+											<Button variant="secondary" onClick={logout} className="ml-5 login-btn rounded w-50" disabled={isLoading}>{isLoading ? <SpinnerLoading /> : 'Вийти'}</Button >
+
+									</div>
 								</>
-								: 
+								:
 								<>
 									<Nav.Link href="/login">Вхід</Nav.Link>
 									<Nav.Link eventKey={2} href="/registration">
