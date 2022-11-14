@@ -24,8 +24,7 @@ class Role {
         try {
             var sql = `INSERT INTO roles (title) VALUES (${body.title}`;
             const [row] = await db.execute(sql);
-            const jsonContent = JSON.stringify(row);
-            return jsonContent;
+            return row;
         } catch (err) {
             console.log(err);
         }
@@ -36,8 +35,7 @@ class Role {
         try {
 			var sql = `DELETE FROM roles WHERE id = ${id}`;
 			const [row] = await db.execute(sql);
-            const jsonContent = JSON.stringify(row);
-            return jsonContent;
+            return row;
         } catch (e) {
             console.log(e);
         }

@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use("/api", routes);
 
-app.use('/avatars', express.static(`${path.resolve()}/avatars`));
+app.use('/avatars', express.static(`${path.resolve()}/assets/avatars`));
 
 app.listen(port, () => {
     console.log(`listening http://localhost:${port}/`);

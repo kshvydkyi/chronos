@@ -4,10 +4,9 @@ import hash_password from '../utils/hash_password.js';
 class User {
     async select_all() {
         try {
-            var sql = "SELECT * FROM `user`";
+            let sql = "SELECT * FROM `users`";
             const [row] = await db.execute(sql);
-            const jsonContent = JSON.stringify(row);
-            return jsonContent;
+            return row;
         } catch (err) {
             console.log(err);
         }
@@ -15,10 +14,9 @@ class User {
 
     async select_by_id(id) {
         try {
-            var sql = `SELECT * FROM user WHERE id = ${id}`;
+            let sql = `SELECT * FROM users WHERE id = ${id}`;
             const [row] = await db.execute(sql);
-            const jsonContent = JSON.stringify(row);
-            return jsonContent;
+            return row[0];
         } catch (err) {
             console.log(err);
         }
@@ -28,8 +26,7 @@ class User {
         try {
             var sql = `INSERT INTO users (login, password, full_name, photo, email, role_id) VALUES ('${body.login}', '${body.password}', '${body.full_name}', '${body.photo}', '${body.email}', ${body.role_id})`;
             const [row] = await db.execute(sql);
-            const jsonContent = JSON.stringify(row);
-            return jsonContent;
+            return row;
         } catch (err) {
             console.log(err);
         }
@@ -40,8 +37,7 @@ class User {
         try {
 			var sql = `DELETE FROM users WHERE id = ${id}`;
 			const [row] = await db.execute(sql);
-            const jsonContent = JSON.stringify(row);
-            return jsonContent;
+            return row;
         } catch (e) {
             console.log(e);
         }

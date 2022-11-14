@@ -14,6 +14,12 @@ import Calendar from './Calendar/Calendar';
 import ConfirmEmail from './Auth/ConfirmEmail';
 
 function App() {
+	if (!localStorage.getItem('autorized')) {
+		localStorage.setItem(
+		  'autorized',
+		  JSON.stringify({ currentUser: 'guest' })
+		);
+	  }
   return (
 		<Routes>
 			<Route path="/" element={<Layout />} >

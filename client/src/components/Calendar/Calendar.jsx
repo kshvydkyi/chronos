@@ -67,16 +67,20 @@ React.useEffect(() => {
 
 
 
-
-
   return (
     <div className="form-background">
     <div className="calendar">
       <div style={{ height: '100vh' }}>
         <Calendar
+          views={['month', 'week', 'day']} 
+          defaultView='month'
           localizer={localizer}
-          // Events={transformItems("")}
           events={transformItems(holidays)}
+          backgroundEvents={[{
+            end: new Date('2022-11-13T21:45:00.000Z'),
+            start: new Date('2022-11-13T21:45:00.000Z'),
+            title: 'Насрать на лицо тимлиду',
+          }]}
           startAccessor="start"
           endAccessor="end"
           components={{ event: EventPopover }}

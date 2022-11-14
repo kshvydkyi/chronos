@@ -2,7 +2,7 @@ import multer from 'multer'
 
 const fileStorageEngineAvatar = multer.diskStorage({
     destination: (_req, _file, cb) => {
-		cb(null, './avatars');
+		cb(null, './assets/avatars');
     },
 
     filename: (_req, file, cb) => {

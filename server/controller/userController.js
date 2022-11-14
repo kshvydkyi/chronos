@@ -16,6 +16,7 @@ class UserController {
         try{
             var user_id = req.params.user_id;
             const result = await User.select_by_id(user_id);
+            // console.log(result);
             status(200, {result}, res);
         }
         catch(err){

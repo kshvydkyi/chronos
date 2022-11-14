@@ -37,8 +37,7 @@ class Calendar {
         try {
 			var sql = `DELETE FROM calendars WHERE id = ${id}`;
 			const [row] = await db.execute(sql);
-            const jsonContent = JSON.stringify(row);
-            return jsonContent;
+            return row;
         } catch (e) {
             console.log(e);
         }
