@@ -4,6 +4,7 @@ import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import axios from '../../api/axios';
+import makeAnimated from 'react-select/animated';
 
 // import {useCreateUpdateMutation, useDeleteMutation} from './eventMutationHooks'
 import 'react-datepicker/dist/react-datepicker.css';
@@ -93,7 +94,7 @@ const EventForm = ({ event, closeModal }) => {
 		control: (provided, state) => ({
 			...provided,
 			backgroundColor: 'none',
-			boxShadow: state.isFocused ? `0 0 0 2px rgb(90, 20, 152), 0 0 #0000` : '',
+			boxShadow: state.isFocused ? `0 0 0 2px 0 0 #0000` : '',
 			transition: 'box-shadow 0.1s ease-in-out',
 		}),
 
@@ -104,7 +105,7 @@ const EventForm = ({ event, closeModal }) => {
 
 		input: (provided) => ({
 			...provided,
-			color: '#fff',
+			color: 'white',
 		}),
 
 		option: (provided, state) => ({
@@ -116,12 +117,12 @@ const EventForm = ({ event, closeModal }) => {
 			transition: '0.3s',
 			color: '#fff',
 		}),
-		value: (provided) => ({
+		singleValue: (provided) => ({
 			...provided,
 			backgroundColor: 'rgb(90, 20, 152)',
 			color: 'white'
 		}),
-		value: (provided) => ({
+		singleValue: (provided) => ({
 			...provided,
 			color: 'white'
 		}),
@@ -131,7 +132,7 @@ const EventForm = ({ event, closeModal }) => {
 		}),
 	}
 	const [selectedValue, setSelectedValue] = useState();
-
+	const animatedComponents = makeAnimated();
 	return (
 		<form
 			onSubmit={e => {
@@ -152,6 +153,7 @@ const EventForm = ({ event, closeModal }) => {
 								dateFormat="MMMM d, yyyy h:mm aa"
 								timeCaption="time"
 								showTimeInput
+								required
 							/>
 						</div>
 						<div className="column">
@@ -164,6 +166,7 @@ const EventForm = ({ event, closeModal }) => {
 								dateFormat="MMMM d, yyyy h:mm aa"
 								timeCaption="time"
 								showTimeInput
+								required
 							/>
 						</div>
 					</div>
@@ -190,6 +193,7 @@ const EventForm = ({ event, closeModal }) => {
 								id="title"
 								value={title}
 								onChange={e => setTitle(e.target.value)}
+								required
 							/>
 						</div>
 					</div>
@@ -200,6 +204,7 @@ const EventForm = ({ event, closeModal }) => {
 								styles={customStyles}
 								placeholder="Тип івенту"
 								// value={options.filter(obj => options.includes(obj.value))} 
+								components={animatedComponents}
 								value={category}// set selected values
 								options={categoriesOptions}
 								className="mt-3"
@@ -208,7 +213,7 @@ const EventForm = ({ event, closeModal }) => {
 									// console.log(option);
 									setCateogry(option);
 								}} // assign onChange function
-
+								required
 							// isClearable
 							/>
 						</div>
@@ -220,13 +225,14 @@ const EventForm = ({ event, closeModal }) => {
 								styles={customStyles}
 								placeholder="Виберіть календар"
 								value={calendarId}
+								components={animatedComponents}
 								options={transformCalendars(calendarsList)}
 								className="mt-3 text-white"
 								// isOptionDisabled={() => calendarId.length >= 1} 
 								onChange={(option) => {
 									setCalendarId(option);
 								}}
-
+								required
 							/>
 						</div>
 					</div>

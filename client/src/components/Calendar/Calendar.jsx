@@ -133,6 +133,10 @@ const CalendarComp = () => {
 						<div className="checkList">
 							<div className="p-1 m-2">
 								<h3 className="title">Calendars</h3>
+								<Form.Check className="">
+									<Form.Check.Input value={'Holidays'} type="checkbox" onChange={handleCheck} />
+									<Form.Check.Label className={isChecked('Holidays')}>Holidays</Form.Check.Label>
+								</Form.Check>
 								{transformCalendars(calendarsList).map((item, index) => (
 									<>
 									<Form.Check className="" key={index}>
