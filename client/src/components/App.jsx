@@ -14,6 +14,7 @@ import Calendar from './Calendar/Calendar';
 import ConfirmEmail from './Auth/ConfirmEmail';
 import User from './Users/User';
 import ChangeUserAvatar from './Users/ChangeAvatar'
+import ChangeProfile from './Users/ChangeProfile';
 function App() {
 	if (!localStorage.getItem('autorized')) {
 		localStorage.setItem(
@@ -30,13 +31,14 @@ function App() {
 				<Route path='registration' element={<Register/> } />
 				<Route path="confirm-email/:token" element={<ConfirmEmail />} />
 				<Route path='reset-password' element={<ResetPassword/>} />
-				<Route path='reset-password/token' element={<ResetPasswordWT/>} />
+				<Route path='reset-password/:token' element={<ResetPasswordWT/>} />
 				
 				{/* only authorized users */}
 				<Route element={<RequreAuth allowedRoles={['user', 'admin']}/>} >
 				<Route path='calendar' element={<Calendar/>} /> 
 				<Route path='user/:id' element={<User/>} />
 				<Route path='change-avatar' element={<ChangeUserAvatar />} />
+				<Route path='change-profile' element={<ChangeProfile/>} />
 					</Route>
 				<Route element={<RequreAuth allowedRoles={['admin']}/>} >
 				</Route>

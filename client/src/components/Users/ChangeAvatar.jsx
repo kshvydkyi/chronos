@@ -51,7 +51,7 @@ const ChangeUserAvatar = () => {
 
       <> 
    
-    <div className="  form-background p-5 d-flex justify-content-center text-white">
+    <div className="form-background p-5 d-flex justify-content-center text-white">
     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>   
         <form className='d-flex flex-column bg-dark p-3' onSubmit={addImage}>
             <Form.Control

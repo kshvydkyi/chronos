@@ -12,6 +12,17 @@ class Event {
         }
     }
 
+    async select_by_user(user_id) {
+        try {
+            let sql = `SELECT * FROM events WHERE user_id = ${user_id}`;
+            const [row] = await db.execute(sql);
+            // console.log(row)
+            return row;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     async select_by_id(id) {
         try {
             var sql = `SELECT * FROM events WHERE id = ${id}`;
@@ -32,11 +43,11 @@ class Event {
         }
     }
 
-    async create(body) {
+    async create(body, userId) {
         try {
             const date1 = toSQLDate(new Date(body.startAt));
             const date2 = toSQLDate(new Date(body.endAt));
-            var sql = `INSERT INTO events (title, startAt, endAt, description, allDay, email, category_id) VALUES ('${body.title}', '${date1}', '${date2}', '${body.description}', ${body.allDay}, '${body.email}', ${body.category_id})`; 
+            var sql = `INSERT INTO events (title, startAt, endAt, description, allDay, email, category_id, user_id) VALUES ('${body.title}', '${date1}', '${date2}', '${body.description}', ${body.allDay}, '${body.email}', ${body.category_id}, '${userId}')`; 
             const [row] = await db.execute(sql); 
             var sql1 = `INSERT INTO calendars_events (calendar_id, event_id) VALUES (${body.calendar_id}, ${row.insertId})`; 
             const [row1] = await db.execute(sql1); 

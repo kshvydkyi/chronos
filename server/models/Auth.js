@@ -12,7 +12,7 @@ class Auth {
                     full_name: body.fullName,
                     photo: "default_avatar.png",
                     email: body.email,
-                    role_id: 1,
+                    role_id: 2,
                 };
             return await User.create(data);
         } catch (err) {

@@ -10,12 +10,13 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '../../css/Event.css'
 
 const EventForm = ({ event, closeModal }) => {
-  const [startAt, setStartDate] = React.useState(new Date(event.startAt));
-  const [endAt, setEndDate] = React.useState(new Date(event.endAt));
+  const [startAt, setStartDate] = React.useState(event.startAt);
+  const [endAt, setEndDate] = React.useState(event.endAt);
   const [title, setTitle] = React.useState(event.title);
   const [email, setEmail] = React.useState(event.email);
   const [description, setDescription] = React.useState(event.description);
   const [category, setCateogry] = React.useState(event.category);
+  const [eventId, setEventId] = React.useState(event.id);
   const [userEmail, setUserEmail] = React.useState();
 
   const [checked, setChecked] = React.useState(false);
@@ -29,7 +30,6 @@ const EventForm = ({ event, closeModal }) => {
   const payload = { startAt, endAt, title, email, description, category};
 
   const eventExists = !!event.title;
-  console.log("event title = ", event)
 
   const currentUser = JSON.parse(localStorage.getItem('autorized'));
 
@@ -44,7 +44,7 @@ const EventForm = ({ event, closeModal }) => {
 
 
   async function submitEvent() {
-      const response = await axios.post('/api/events',
+      const response = await axios.post(`/api/events/${currentUser.userId}`,
         JSON.stringify({ title: title, description: description, 
           email: userEmail, endAt: endAt, startAt: startAt, category_id: category, 
           allDay: 1, calendar_id: 1}),
@@ -54,6 +54,12 @@ const EventForm = ({ event, closeModal }) => {
         }
     );
     console.log(category)
+    window.location.href="/calendar"
+  }
+
+  async function deleteEvent() {
+    const response = await axios.delete(`/api/events/${eventId}`);
+    closeModal()
     window.location.href="/calendar"
   }
 
@@ -123,7 +129,7 @@ const EventForm = ({ event, closeModal }) => {
             <div className="column ">
               <label htmlFor="title">Category</label>
               <select value={category} className="bg-dark text-white w-100 text-center" onChange={e => setCateogry(e.target.value)}>
-                <option value="1">arrangement</option>
+                <option default value="1">arrangement</option>
                 <option value="2">reminder</option>
                 <option value="3">task</option>
               </select>
@@ -158,7 +164,7 @@ const EventForm = ({ event, closeModal }) => {
                 <input
                   className="button-danger"
                   type="button"
-                  // onClick={deleteEvent}
+                  onClick={() => deleteEvent()}
                   value="Delete"
                 />
               </div>

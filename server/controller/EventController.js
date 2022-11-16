@@ -34,9 +34,22 @@ class EventController {
         }
     }
 
+    async select_by_user(req, res, next) {
+        try{
+            const {user_id} = req.params;
+            // console.log(user_id);
+            const result = await Event.select_by_user(user_id);
+            status(200, {result}, res);
+        }
+        catch(err){
+            next(err);
+        }
+    }
+
     async create(req, res, next) {
         try{
-            const result = await Event.create(req.body);
+            const {userId} = req.params;
+            const result = await Event.create(req.body, userId);
             status(200, {result}, res);
         }
         catch(err){

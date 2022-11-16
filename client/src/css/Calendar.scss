@@ -8,6 +8,7 @@ $today-color: #212529;
 $out-of-range: rgb(14, 14, 14);
 $text-color: rgb(192, 192, 192);
 $event-border-color: rgb(219, 183, 0);
+$background-event: rgb(0, 8, 77);
 $font-stack: 'PT Sans', sans-serif;
 *{
   margin: 0;
@@ -52,7 +53,7 @@ $font-stack: 'PT Sans', sans-serif;
   }
   
   .calendar .rbc-event {
-    background-color: $backgroun-black;
+    background-color: $background-event;
     border-radius: 0;
     color: $text-color;
     border-left: 2px solid $event-border-color;
@@ -231,4 +232,38 @@ $font-stack: 'PT Sans', sans-serif;
   .column > textarea::-webkit-scrollbar-thumb {
     background-color: $primary-color;  
   border-radius: 10px;     
+}
+
+// checkbox
+
+.app {
+  font-family: sans-serif;
+  font-size: 18px;
+  // display: flex;
+  // align-items: center;
+  justify-content: center;
+  // flex-direction: column;
+  gap: 20px;
+  height: 100vh;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+
+  position: absolute; 
+  right: 0px;
+}
+.title {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-left: 20px;
+}
+.checked-item,
+.not-checked-item {
+  margin-left: 10px;
+}
+.checked-item {
+  text-decoration: line-through;
 }

@@ -4,7 +4,9 @@ import axios from '../../api/axios';
 import route from '../../api/route';
 import updateIcon from '../../assets/svg/pencil-square.svg';
 import Button from 'react-bootstrap/Button';
-
+import useAuth from '../../hooks/useAuth';
+import SpinnerLoading from "../Other/Spinner";
+import NavDropdown from 'react-bootstrap/NavDropdown';
 const User = () => {
     const currentUser = JSON.parse(localStorage.getItem('autorized'));
     const navigate = useNavigate();
@@ -19,6 +21,25 @@ const User = () => {
     const { search, pathname } = useLocation();
     const id = pathname.split('/');
 
+    const { auth, setAuth } = useAuth();
+    const [isLoading, setLoading] = useState(false);
+    const LOGOUT = '/api/auth/logout/'
+    const logout = async () => {
+        try {
+            setLoading(true)
+            const response = await axios.post(LOGOUT + currentUser.accessToken);
+            // console.log(response.data);
+            localStorage.removeItem('autorized');
+            setAuth(false);
+            setLoading(false);
+            navigate('/');
+
+        }
+        catch (e) {
+            setLoading(false);
+            navigate('/500');
+        }
+    }
     const getUserInfo = async () => {
         try {
             const response = await axios.get(`/api/users/${id[2]}`);
@@ -46,7 +67,7 @@ const User = () => {
     return (
         <>
             <div className="form-background p-5 d-flex justify-content-center">
-                <section className='login bg-dark text-white rounded d-flex flex-column p-3 justify-content-center'>
+                <section className='bg-dark text-white rounded d-flex flex-column p-3 justify-content-center'>
                     <div className='d-flex justify-content-center align-items-center'>
                         <h2 className='m-2'>{login}</h2>
                         <p className='m-2 text-muted'>{role}</p>
@@ -54,23 +75,31 @@ const User = () => {
                     <div className='d-flex'>
                         <div className='d-flex flex-column align-items-center'>
                             <img src={photo && photo !== 'undefined' && photo !== undefined ? `${route.serverURL}/avatars/${photo}` : `${route.serverURL}/avatars/default_avatar.png`} className='link-header border border-secondary' height={100} width={100} alt='avatar' />
-                            {selfProfile ? <Button variant='secondary w-50 m-2' onClick={() => navigate('/change-avatar')}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
-  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-  <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-</svg></Button> : <></>}
-                            
+
                         </div>
                         <div className='d-flex flex-column'>
-                            <p>{fullName}</p>
-                            <p>{email}</p>
-                            {selfProfile ? <Button variant='secondary w-50 m-2' onClick={() => navigate('/change-profile')}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
-  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-  <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-</svg></Button> : <></>}
+                            <p>Name: {fullName}</p>
+                            <p>Email: {email}</p>
+
                         </div>
+                        <div className="ms-5">{selfProfile ?
+                            <>
+                            <NavDropdown title="" id="collasible-nav-dropdown">
+								<NavDropdown.Item href="/change-profile">Редагувати профіль</NavDropdown.Item>
+								<NavDropdown.Item href="/change-avatar">
+									Редагувати аватар
+								</NavDropdown.Item>
+								<NavDropdown.Divider />
+								<NavDropdown.Item>
+                                <Button variant="secondary" onClick={logout} className="m-0 login-btn rounded" disabled={isLoading}>{isLoading ? <SpinnerLoading /> : 'Вийти'}</Button >
+								</NavDropdown.Item>
+							</NavDropdown>
+                                
+                            </>
+                            : <></>}</div>
 
                     </div>
-                
+
                 </section>
             </div>
         </>)

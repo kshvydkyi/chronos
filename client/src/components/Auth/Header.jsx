@@ -4,7 +4,6 @@
 // import useAuth from '../../hooks/useAuth';
 import logo from '../../assets/images/icon.png'
 import Button from 'react-bootstrap/Button';
-import SpinnerLoading from "../Other/Spinner";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -14,8 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from '../../api/axios';
 import route from '../../api/route';
-
-const LOGOUT = '/api/auth/logout/'
 const checkToken = async (token, setAuth) => {
 	try {
 		const response = await axios.get(`/api/users/check-token/${token}`);
@@ -48,22 +45,6 @@ const Header = () => {
 			}
 		}
 	}, []);
-	const logout = async () => {
-		try {
-			setLoading(true)
-			const response = await axios.post(LOGOUT + currentUser.accessToken);
-			// console.log(response.data);
-			localStorage.removeItem('autorized');
-			setAuth(false);
-			setLoading(false);
-			navigate('/');
-
-		}
-		catch (e) {
-			setLoading(false);
-			navigate('/500');
-		}
-	}
 	const getUserInfo = async () => {
 		try {
 			const response = await axios.get(`/api/users/${currentUser.userId}`);
@@ -111,7 +92,7 @@ const Header = () => {
 											<Nav.Link className='link-header' href={`/user/${currentUser.userId}`}>{currentUser.user}</Nav.Link>
 											<img src={userAvatar && userAvatar !== 'undefined' && userAvatar !== undefined ? `${route.serverURL}/avatars/${userAvatar}` : `${route.serverURL}/avatars/default_avatar.png`} className='link-header border border-secondary rounded-circle' height={40} width={40} alt='avatar' />
 										</div>
-											<Button variant="secondary" onClick={logout} className="ml-5 login-btn rounded w-50" disabled={isLoading}>{isLoading ? <SpinnerLoading /> : 'Вийти'}</Button >
+											
 
 									</div>
 								</>

@@ -107,6 +107,10 @@ CREATE TABLE `events` (
   `allDay` tinyint NOT NULL,
   `email` varchar(255) NOT NULL,
   `category_id` int NOT NULL,
+  `user_id` INT NOT NULL,
+	FOREIGN KEY ( user_id )
+        REFERENCES users(id)
+        ON DELETE CASCADE,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -117,7 +121,7 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
-INSERT INTO `events` VALUES (1,'aboba','2022-11-14 23:00:00','2022-11-15 23:00:00','mraz',1,'dimadubinin11@gmail.com',1),(2,'new eevent','2022-11-22 23:00:00','2022-11-23 23:00:00','descr',1,'dimadubinin11@gmail.com',1),(3,'new eevent','2022-11-22 23:00:00','2022-11-23 23:00:00','descr',1,'dimadubinin11@gmail.com',1),(4,'aboba','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',2),(5,'Aboba','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',2),(6,'aboab','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',2),(7,'aboab','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',2),(8,'aboba','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',1);
+INSERT INTO `events` VALUES (1,'aboba','2022-11-14 23:00:00','2022-11-15 23:00:00','mraz',1,'dimadubinin11@gmail.com',1, 4),(2,'new eevent','2022-11-22 23:00:00','2022-11-23 23:00:00','descr',1,'dimadubinin11@gmail.com',1, 3),(3,'new eevent','2022-11-22 23:00:00','2022-11-23 23:00:00','descr',1,'dimadubinin11@gmail.com',1, 3),(4,'aboba','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',2, 3),(5,'Aboba','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',2, 4),(6,'aboab','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',2, 4),(7,'aboab','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',2,4),(8,'aboba','2022-11-14 23:00:00','2022-11-15 23:00:00','hui',1,'dimadubinin11@gmail.com',1, 3);
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 
