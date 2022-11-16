@@ -7,6 +7,7 @@ import moment from 'moment';
 
 import EventPopover from '../Events/EventPopover';
 import EventModal from '../Events/EventModal';
+import CalendarModal from './CalendarModal';
 import Form from 'react-bootstrap/Form';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import axios from '../../api/axios';
@@ -37,9 +38,13 @@ const CalendarComp = () => {
 	const [isModalOpen, setIsModalOpen] = React.useState(false);
 	const [holidays, setHolidays] = React.useState([]);
 	const [eventsList, setEventsList] = React.useState([]);
+	const [calendarsList, setCalendarsList] = React.useState(['Holidays']);
 	const [userId, setUserId] = React.useState();
+	const [modalOpen, setModalOpen] = React.useState(false);
 	const navigate = useNavigate();
-
+	// get id
+	const currentUser = JSON.parse(localStorage.getItem('autorized'));
+	
 	const url = `${BASE_CALENDAR_URL}/${CALENDAR_REGION}%23${BASE_CALENDAR_ID_FOR_PUBLIC_HOLIDAY}/events?key=${API_KEY}`
 
 	const transformItems = holidays =>
@@ -52,8 +57,7 @@ const CalendarComp = () => {
 		});
 
 
-	// get id
-	const currentUser = JSON.parse(localStorage.getItem('autorized'));
+
 
 	React.useEffect(() => {
 		fetch(url).then(response => response.json()).then(data => {
@@ -64,9 +68,13 @@ const CalendarComp = () => {
 	React.useEffect(() => {
 		fetch(`/api/events/usersEvents/${currentUser.userId}`).then(response => response.json()).then(data => {
 			setEventsList(data.values.result);
-			console.log(data.values.result)
 		})
+	}, [])
 
+	React.useEffect(() => {
+		fetch(`/api/calendars/users/${currentUser.userId}`).then(response => response.json()).then(data => {
+			setCalendarsList(data.values.result);
+		})
 	}, [])
 
 	const transformEvents = eventsList => 
@@ -81,12 +89,19 @@ const CalendarComp = () => {
 				start: moment(item.startAt, moment.defaultFormat).toDate(),
 			};
 		});
+		
+		const transformCalendars = calendars => 
+		calendars.map(item => {
+			return {
+				id: item.id,
+				title: item.title,
+			};
+		});	
 	
-	console.log(transformEvents(eventsList));
 	const [checked, setChecked] = React.useState([]);
 	const [holidaysHide, setHolidaysHide] = React.useState(false);
 	const [eventsHide, setEventsHide] = React.useState(false);
-	const checkList = ["Holidays", "Events"];
+
 	const handleCheck = (event) => { // pizda
 		var updatedList = [...checked];
 		if (event.target.checked) {
@@ -117,12 +132,23 @@ const CalendarComp = () => {
 					<div className="calendar d-flex">
 						<div className="checkList">
 							<div className="p-1 m-2">
-								<h3 className="title">Events</h3>
-								{checkList.map((item, index) => (
+								<h3 className="title">Calendars</h3>
+								{transformCalendars(calendarsList).map((item, index) => (
+									<>
 									<Form.Check className="" key={index}>
-										<Form.Check.Input value={item} type="checkbox" onChange={handleCheck} />
-										<Form.Check.Label className={isChecked(item)}>{item}</Form.Check.Label>
+										<Form.Check.Input value={item.title} type="checkbox" onChange={handleCheck} />
+										<Form.Check.Label onClick={() => setModalOpen(true)} className={isChecked(item.title)}>{item.title}</Form.Check.Label>
 									</Form.Check>
+									
+										<CalendarModal
+										isOpen={modalOpen}
+										closeModal={() => setModalOpen(false)}
+										event={{
+											id: item.id,
+											title: item.title
+										}}
+									/>
+								</>
 								))}
 							</div>
 						</div>
@@ -160,8 +186,6 @@ const CalendarComp = () => {
 							// 	return { style: { backgroundColor, color } }
 							// }}
 							/>
-
-
 
 							<EventModal
 								isOpen={isModalOpen}

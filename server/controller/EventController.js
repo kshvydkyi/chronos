@@ -48,8 +48,7 @@ class EventController {
 
     async create(req, res, next) {
         try{
-            const {userId} = req.params;
-            const result = await Event.create(req.body, userId);
+            const result = await Event.create(req.body);
             status(200, {result}, res);
         }
         catch(err){
@@ -64,6 +63,16 @@ class EventController {
             status(200, {result}, res);
         }
         catch(err){
+            next(err);
+        }
+    }
+        
+    async update(req, res, next) {
+        try {
+            var event_id = req.params.event_id;
+            const result = await Event.update(req.body, event_id);
+            status(200, {result}, res);
+        } catch (err) {
             next(err);
         }
     }

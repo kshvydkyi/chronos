@@ -20,6 +20,7 @@ class Role {
             console.log(err);
         }
     }
+    
     async create(body) {
         try {
             var sql = `INSERT INTO roles (title) VALUES (${body.title}`;
@@ -30,8 +31,7 @@ class Role {
         }
     }
     
-    async delete_by_id(id)
-	{
+    async delete_by_id(id) {
         try {
 			var sql = `DELETE FROM roles WHERE id = ${id}`;
 			const [row] = await db.execute(sql);

@@ -10,6 +10,7 @@ $text-color: rgb(192, 192, 192);
 $event-border-color: rgb(219, 183, 0);
 $background-event: rgb(0, 8, 77);
 $font-stack: 'PT Sans', sans-serif;
+$rounded: 7px;
 *{
   margin: 0;
   padding: 0;
@@ -197,14 +198,16 @@ $font-stack: 'PT Sans', sans-serif;
 .react-datepicker__input-container > input{
   background-color: $backgroun-black !important;
   border: none !important;
+  border-radius:$rounded !important;
   color: $text-color !important;
   width: 100% !important;
   text-align: center !important;
   border: 2px solid $border-color !important;
 }
-.column > input{
+.column > input[type="text"]{
   background-color: $backgroun-black !important;
   border: none !important;
+  border-radius:$rounded !important;
   color: $text-color !important;
   width: 100% !important;
   text-align: center !important;
@@ -213,15 +216,16 @@ $font-stack: 'PT Sans', sans-serif;
 .column > textarea {
   background-color: $backgroun-black !important;
   border: none !important;
+  border-radius: $rounded !important;
   color: $text-color !important;
   width: 100% !important;
   text-align: center !important;
   border: 2px solid $border-color !important;
 }
-.column > input[type="submit"]{
-  background-color: $border-color !important;
-  border: 1px solid $border-color !important;
-}
+// .column > input[type="submit"]{
+//   background-color: $border-color !important;
+//   border: 1px solid $border-color !important;
+// }
 
 .column > textarea::-webkit-scrollbar {
     width: 5px;            

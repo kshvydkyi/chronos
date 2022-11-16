@@ -23,6 +23,17 @@ class CalendarController {
         }
     }
     
+    async select_by_user_id(req, res, next) {
+        try{
+            var user_id = req.params.user_id;
+            const result = await Calendar.select_by_user_id(user_id);
+            status(200, {result}, res);
+        }
+        catch(err){
+            next(err);
+        }
+    }
+
     async create(req, res, next) {
         try{
             const result = await Calendar.create(req.body);
@@ -40,6 +51,16 @@ class CalendarController {
             status(200, {result}, res);
         }
         catch(err){
+            next(err);
+        }
+    }
+            
+    async update(req, res, next) {
+        try {
+            var calendar_id = req.params.calendar_id;
+            const result = await Calendar.update(req.body, calendar_id);
+            status(200, {result}, res);
+        } catch (err) {
             next(err);
         }
     }

@@ -79,8 +79,8 @@ const User = () => {
 									Редагувати аватар
 								</NavDropdown.Item>
 								<NavDropdown.Divider />
-								<NavDropdown.Item>
-                                <Button variant="secondary" onClick={logout} className="m-0 login-btn rounded" disabled={isLoading}>{isLoading ? <SpinnerLoading /> : 'Вийти'}</Button >
+								<NavDropdown.Item className="text-danger" onClick={logout}>
+                                {isLoading ? <SpinnerLoading /> : 'Вийти'}
 								</NavDropdown.Item>
 							</NavDropdown>
                                 

@@ -13,6 +13,9 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from '../../api/axios';
 import route from '../../api/route';
+import CalendarModal from '../Calendar/CalendarModal';
+
+
 const checkToken = async (token, setAuth) => {
 	try {
 		const response = await axios.get(`/api/users/check-token/${token}`);
@@ -33,6 +36,9 @@ const Header = () => {
 	// console.log(currentUser);
 	const [isLoading, setLoading] = useState(false);
 	const [userAvatar, setUserAvatar] = useState();
+	const [modalOpen, setModalOpen] = useState(false);
+
+
 	useEffect(() => {
 		if (currentUser.currentUser !== 'guest') {
 			if (auth) {
@@ -73,13 +79,13 @@ const Header = () => {
 							<Nav.Link href="/calendar">Календар</Nav.Link>
 							<Nav.Link href="/">Пріколи</Nav.Link>
 							<NavDropdown title="Дії" id="collasible-nav-dropdown">
-								<NavDropdown.Item href="#action/3.1">Дія 1</NavDropdown.Item>
+								<NavDropdown.Item onClick={() => setModalOpen(true)} href="">Створити календар</NavDropdown.Item>
 								<NavDropdown.Item href="#action/3.2">
 									Дія 2
 								</NavDropdown.Item>
 								<NavDropdown.Item href="#action/3.3">Дія 3</NavDropdown.Item>
 								<NavDropdown.Divider />
-								<NavDropdown.Item href="https://birds-attack.web.app/">
+								<NavDropdown.Item className="text-danger" href="https://birds-attack.web.app/">
 									Тут пріколи
 								</NavDropdown.Item>
 							</NavDropdown>
@@ -108,6 +114,15 @@ const Header = () => {
 					</Navbar.Collapse>
 				</Container>
 			</Navbar>
+
+
+			<CalendarModal
+				isOpen={modalOpen}
+				closeModal={() => setModalOpen(false)}
+				event={{
+					title: '',
+				}}
+			/>
 		</div>
 	)
 }

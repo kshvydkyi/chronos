@@ -52,12 +52,13 @@ class UserController {
         const token = req.params.token;  
         try {
             const userData = jwt.verify(token, "jwt-key");
-            const result = await User.update_avatar(pathFile,  userData.userId);
+            const result = await User.update_avatar(pathFile, userData.userId);
             status(200, {result}, res);
         } catch (err) {
             next(err);
         }
     }
+
     async checkToken(req, res, next){
         const token = req.params.token;
         try{
@@ -69,6 +70,16 @@ class UserController {
             status(401, {message:`token dead`}, res);
             next(err);
            
+        }
+    }
+    
+    async update(req, res, next) {
+        try {
+            var user_id = req.params.user_id;
+            const result = await User.update(req.body, user_id);
+            status(200, {result}, res);
+        } catch (err) {
+            next(err);
         }
     }
 }

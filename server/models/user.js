@@ -32,8 +32,7 @@ class User {
         }
     }
     
-    async delete_by_id(id)
-	{
+    async delete_by_id(id) {
         try {
 			var sql = `DELETE FROM users WHERE id = ${id}`;
 			const [row] = await db.execute(sql);
@@ -43,8 +42,7 @@ class User {
         }
 	}
 
-    async update_avatar(path, user_id)
-	{
+    async update_avatar(path, user_id) {
         try {
 			var sql = `UPDATE users SET photo = '${path}' WHERE id = ${user_id}`;
             const [row] = await db.execute(sql);
@@ -66,5 +64,15 @@ class User {
         const [row] = await db.execute(sql);
         return row.length !== 0;
     }
+
+    async update(body, user_id) {
+		try {
+			var sql = `UPDATE users SET login = ${body.login}, email = ${body.email}, full_name = ${body.full_name} WHERE id = ${user_id}`;
+			const [row] = await dbConnection.execute(sql);
+            return row;
+		} catch (e) {
+			console.log(e);
+		}
+	}
 }
 export default new User();
