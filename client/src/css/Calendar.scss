@@ -78,15 +78,16 @@ $font-stack: 'PT Sans', sans-serif;
   }
   
   .Popover-tip {
-    fill: #684242;
-    stroke: #f6f7fa;
+    fill: $background-event;
+    stroke: $event-border-color;
     stroke-width: 2px;
   }
   
   .Popover-body {
-    border: 2px solid #2e4486;
+    border: 2px solid $border-color;
     padding: 10px 5px;
-    background-color: #952828;
+    color: $text-color;
+    background-color: $backgroun-black;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
   }
   

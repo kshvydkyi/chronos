@@ -71,20 +71,9 @@ const User = () => {
                     <div className='d-flex justify-content-center align-items-center'>
                         <h2 className='m-2'>{login}</h2>
                         <p className='m-2 text-muted'>{role}</p>
-                    </div>
-                    <div className='d-flex'>
-                        <div className='d-flex flex-column align-items-center'>
-                            <img src={photo && photo !== 'undefined' && photo !== undefined ? `${route.serverURL}/avatars/${photo}` : `${route.serverURL}/avatars/default_avatar.png`} className='link-header border border-secondary' height={100} width={100} alt='avatar' />
-
-                        </div>
-                        <div className='d-flex flex-column'>
-                            <p>Name: {fullName}</p>
-                            <p>Email: {email}</p>
-
-                        </div>
                         <div className="ms-5">{selfProfile ?
                             <>
-                            <NavDropdown title="" id="collasible-nav-dropdown">
+                            <NavDropdown title="Налаштунки" id="collasible-nav-dropdown">
 								<NavDropdown.Item href="/change-profile">Редагувати профіль</NavDropdown.Item>
 								<NavDropdown.Item href="/change-avatar">
 									Редагувати аватар
@@ -97,6 +86,18 @@ const User = () => {
                                 
                             </>
                             : <></>}</div>
+                    </div>
+                    <div className='d-flex'>
+                        <div className='d-flex flex-column align-items-center'>
+                            <img src={photo && photo !== 'undefined' && photo !== undefined ? `${route.serverURL}/avatars/${photo}` : `${route.serverURL}/avatars/default_avatar.png`} className='link-header border border-secondary' height={100} width={100} alt='avatar' />
+
+                        </div>
+                        <div className='d-flex flex-column'>
+                            <p>Name: {fullName}</p>
+                            <p>Email: {email}</p>
+
+                        </div>
+                      
 
                     </div>
 
