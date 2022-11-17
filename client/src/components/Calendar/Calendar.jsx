@@ -67,6 +67,7 @@ const CalendarComp = () => {
 
 	React.useEffect(() => {
 		fetch(`/api/events/usersEvents/${currentUser.userId}`).then(response => response.json()).then(data => {
+			// console.log(data)
 			setEventsList(data.values.result);
 		})
 	}, [])
@@ -78,7 +79,7 @@ const CalendarComp = () => {
 	}, [])
 
 	const transformEvents = eventsList => 
-		// if (!eventsList) return;
+		// console.log(eventsList);
 		eventsList.map(item => {
 			return {
 				id: item.id,
@@ -89,7 +90,7 @@ const CalendarComp = () => {
 				start: moment(item.startAt, moment.defaultFormat).toDate(),
 			};
 		});
-		
+	
 		const transformCalendars = calendars => 
 		calendars.map(item => {
 			return {
@@ -99,18 +100,45 @@ const CalendarComp = () => {
 		});	
 	
 	const [checked, setChecked] = React.useState([]);
+	const [calendarsEvents, setCalendarsEvents] = React.useState([]);
 	const [holidaysHide, setHolidaysHide] = React.useState(false);
 	const [eventsHide, setEventsHide] = React.useState(false);
 
+	// const isCheckedFunc = (calendar, calStatus) => {
+	// 	const [isHide, setIsHide] = React.useState(false);
+	// }
 	const handleCheck = (event) => { // pizda
+		let copyEventsList = [...eventsList];
+		// console.log(copyEventsList)
 		var updatedList = [...checked];
 		if (event.target.checked) {
 			updatedList = [...checked, event.target.value];
 			if (event.target.value === 'Holidays') setHolidaysHide(true)
-			if (event.target.value === 'Events') setEventsHide(true)
+			
+			fetch(`/api/events/bycalendar/${event.target.value}/${currentUser.accessToken}`).then(response => response.json()).then(data => {
+				setCalendarsEvents(data.values.result)
+					
+			})
+			for(let i = 0; i < eventsList.length; i++) {
+				for(let j = 0; j < calendarsEvents.length; j++) {
+					if(calendarsEvents[j].id === eventsList[i].id) {
+						eventsList.splice(i, i)
+					}
+				}
+			}			
+			
 		} else {
 			if (event.target.value === 'Holidays') setHolidaysHide(false)
-			if (event.target.value === 'Events') setEventsHide(false)
+				
+				for(let i = 0; i < copyEventsList.length; i++) {
+					for(let j = 0; j < calendarsEvents.length; j++) {
+						if(calendarsEvents[j].id === copyEventsList[i].id) {
+							console.log('aboba')
+							console.log(calendarsEvents[j]);
+							eventsList.push(calendarsEvents[j]);
+						}
+					}
+				}
 			updatedList.splice(checked.indexOf(event.target.value), 1);
 		}
 		setChecked(updatedList);
@@ -140,7 +168,7 @@ const CalendarComp = () => {
 								{transformCalendars(calendarsList).map((item, index) => (
 									<>
 									<Form.Check className="" key={index}>
-										<Form.Check.Input value={item.title} type="checkbox" onChange={handleCheck} />
+										<Form.Check.Input value={item.id} type="checkbox" onChange={handleCheck} />
 										<Form.Check.Label onClick={() => setModalOpen(true)} className={isChecked(item.title)}>{item.title}</Form.Check.Label>
 									</Form.Check>
 									
