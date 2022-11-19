@@ -3,6 +3,7 @@ import '../../css/Calendar.scss'
 
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment';
+
 // import { useQuery } from 'react-apollo-hooks';
 
 import EventPopover from '../Events/EventPopover';
@@ -12,7 +13,7 @@ import Form from 'react-bootstrap/Form';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import axios from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
-
+import 'moment/locale/uk.js';
 const localizer = momentLocalizer(moment);
 
 const transformItems = eventsList =>
@@ -67,7 +68,6 @@ const CalendarComp = () => {
 
 	React.useEffect(() => {
 		fetch(`/api/events/usersEvents/${currentUser.userId}`).then(response => response.json()).then(data => {
-			// console.log(data)
 			setEventsList(data.values.result);
 		})
 	}, [])
@@ -77,6 +77,8 @@ const CalendarComp = () => {
 			setCalendarsList(data.values.result);
 		})
 	}, [])
+
+
 
 	const transformEvents = eventsList => 
 		// console.log(eventsList);
@@ -108,40 +110,40 @@ const CalendarComp = () => {
 	// 	const [isHide, setIsHide] = React.useState(false);
 	// }
 	const handleCheck = (event) => { // pizda
-		let copyEventsList = [...eventsList];
-		// console.log(copyEventsList)
-		var updatedList = [...checked];
+		// let copyEventsList = [...eventsList];
 		if (event.target.checked) {
-			updatedList = [...checked, event.target.value];
 			if (event.target.value === 'Holidays') setHolidaysHide(true)
-			
+	
 			fetch(`/api/events/bycalendar/${event.target.value}/${currentUser.accessToken}`).then(response => response.json()).then(data => {
-				setCalendarsEvents(data.values.result)
-					
+				setCalendarsEvents(data.values.result)					
 			})
 			for(let i = 0; i < eventsList.length; i++) {
 				for(let j = 0; j < calendarsEvents.length; j++) {
-					if(calendarsEvents[j].id === eventsList[i].id) {
-						eventsList.splice(i, i)
+					if(calendarsEvents[j].title === eventsList[i].title) {
+						// eventsList.splice(i, i)
+						eventsList[i] = {title: ''}
 					}
+					// setEventsList(calendarsEvents);
 				}
-			}			
+			}		
 			
 		} else {
 			if (event.target.value === 'Holidays') setHolidaysHide(false)
-				
-				for(let i = 0; i < copyEventsList.length; i++) {
-					for(let j = 0; j < calendarsEvents.length; j++) {
-						if(calendarsEvents[j].id === copyEventsList[i].id) {
-							console.log('aboba')
-							console.log(calendarsEvents[j]);
-							eventsList.push(calendarsEvents[j]);
-						}
-					}
-				}
-			updatedList.splice(checked.indexOf(event.target.value), 1);
+			fetch(`/api/events/usersEvents/${currentUser.userId}`).then(response => response.json()).then(data => {
+				setEventsList(data.values.result);
+			})
+			// console.log(calendarsList)
+			// setEventsList(calendarsList)
+				// for(let i = 0; i < copyEventsList.length; i++) {
+				// 	for(let j = 0; j < calendarsEvents.length; j++) {
+				// 		if(calendarsEvents[j].id === copyEventsList[i].id) {
+				// 			// console.log(calendarsEvents);
+				// 			setEventsList(calendarsEvents)
+				// 			// eventsList calendarsEvents[j]);
+				// 		}
+				// 	}
+				// }
 		}
-		setChecked(updatedList);
 	};
 
 	const checkedItems = checked.length
@@ -157,18 +159,19 @@ const CalendarComp = () => {
 		<>
 			<div>
 				<div className="form-background">
-					<div className="calendar d-flex">
-						<div className="checkList">
+				<div className="checkList calendar">
 							<div className="p-1 m-2">
 								<h3 className="title">Calendars</h3>
+								<div className="d-flex">
 								<Form.Check className="">
 									<Form.Check.Input value={'Holidays'} type="checkbox" onChange={handleCheck} />
 									<Form.Check.Label className={isChecked('Holidays')}>Holidays</Form.Check.Label>
 								</Form.Check>
 								{transformCalendars(calendarsList).map((item, index) => (
 									<>
-									<Form.Check className="" key={index}>
-										<Form.Check.Input value={item.id} type="checkbox" onChange={handleCheck} />
+									<div className='ms-3'>
+									<Form.Check  key={index}>
+										<Form.Check.Input className="" value={item.id} type="checkbox" onChange={handleCheck} />
 										<Form.Check.Label onClick={() => setModalOpen(true)} className={isChecked(item.title)}>{item.title}</Form.Check.Label>
 									</Form.Check>
 									
@@ -180,10 +183,14 @@ const CalendarComp = () => {
 											title: item.title
 										}}
 									/>
+									</div>
 								</>
 								))}
+								</div>
 							</div>
 						</div>
+					<div className="calendar d-flex">
+						
 						<div className="w-100 " style={{ height: '100vh' }}>
 							<Calendar
 								localizer={localizer}
@@ -199,7 +206,19 @@ const CalendarComp = () => {
 									startDate: new Date('December 09, 1990 11:13:00'),
 									title: 'hi',
 								}]}
-
+								messages={{
+									next:"Наступний",
+									previous:"Попередній",
+									today:"Сьогодні",
+									month: 'Місяць',
+									week: 'Тиждень',
+									day: 'День',
+									agenda: 'Історія',
+									noEventsInRange: 'Нічого немає(',
+									date: 'Дата',
+									time: 'Час',
+									event: 'Івент',
+								}}
 								startAccessor="start"
 								endAccessor="end"
 								className=''
@@ -212,6 +231,37 @@ const CalendarComp = () => {
 									setIsModalOpen(true);
 								}}
 								showAllEvents={true}
+								eventPropGetter={
+									(event, start, end, isSelected) => {
+									  let newStyle = {
+										backgroundColor: "lightgrey",
+										color: 'rgb(192, 192, 192)',
+										borderRadius: "0px",
+										borderLeft: "2px solid yellow"
+									  };
+									  console.log(event)
+									  if (event.category === 1){
+										newStyle.backgroundColor = "rgb(0, 8, 77)"
+										// newStyle.borderLeft = "2px solid rgb(219, 183, 0)"
+										newStyle.color = "rgb(192, 192, 192)"
+									  }
+									  if (event.category === 2){
+										newStyle.backgroundColor = "rgb(0, 77, 5)"
+										// newStyle.borderLeft = "2px solid rgb(219, 183, 0)"
+										newStyle.color = "rgb(192, 192, 192)"
+									  }
+									  if (event.category === 3){
+										newStyle.backgroundColor = "rgb(77, 0, 19)"
+										// newStyle.borderLeft = "2px solid rgb(219, 183, 0)"
+										newStyle.color = "rgb(192, 192, 192)"
+									  }
+								
+									  return {
+										className: "",
+										style: newStyle
+									  };
+									}
+								}
 							// eventPropGetter={(eventsList) => {
 							// 	const backgroundColor = eventsList.category === 1 ? 'blue' : 'red';
 							// 	const color = 'white';

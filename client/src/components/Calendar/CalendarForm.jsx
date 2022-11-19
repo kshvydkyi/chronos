@@ -32,6 +32,17 @@ const CalendarForm = ({ event, closeModal }) => {
     window.location.href="/calendar"
   }
 
+  async function updateCalendar() {
+    const response = await axios.patch(`/api/calendars/${calendarId}`,
+    JSON.stringify({ title: title, user_id: currentUser.userId}),
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      }
+);
+window.location.href="/calendar"
+  }
+
   async function deleteCalendar() {
     const response = await axios.delete(`/api/calendars/${calendarId}`);
     closeModal()
@@ -66,7 +77,7 @@ const CalendarForm = ({ event, closeModal }) => {
               <input
                 className="text-white border border-secondary bg-secondary mt-2 p-1 rounded"
                 type="submit"
-                onClick={() => submitCalendar()}
+                onClick={calendarExists ? () => updateCalendar() : () => submitCalendar()}
                 value={calendarExists ? 'Update' : 'Create'}
               />
             </div>

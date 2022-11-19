@@ -70,8 +70,12 @@ class Event {
     
     async update(body, id) {
 		try {
-			var sql = `UPDATE events SET title = ${body.title}, startAt = ${body.startAt}, endAt = ${body.endAt}, description = ${body.description}, email = ${body.email}, category_id = ${body.category_id} WHERE id = ${id}`;
-			const [row] = await dbConnection.execute(sql);
+            const date1 = toSQLDate(new Date(body.startAt));
+            const date2 = toSQLDate(new Date(body.endAt));
+			let sql = `UPDATE events SET title = '${body.title}', startAt = '${date1}', endAt = '${date2}', description = '${body.description}', email = '${body.email}', category_id = '${body.category_id}' WHERE id = '${id}'`;
+			const [row] = await db.execute(sql);
+            let sql1 = `UPDATE calendars_events (calendar_id, event_id) VALUES ('${body.calendar_id}', '${row.insertId}')`; 
+            const [row1] = await db.execute(sql1); 
             return row;
 		} catch (e) {
 			console.log(e);

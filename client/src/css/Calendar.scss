@@ -16,6 +16,7 @@ $rounded: 7px;
   padding: 0;
 }
 .calendar {
+    
     border: 2px solid $border-color;
     border-radius: 6px;
     padding: 10px;
@@ -57,7 +58,8 @@ $rounded: 7px;
     background-color: $background-event;
     border-radius: 0;
     color: $text-color;
-    border-left: 2px solid $event-border-color;
+    border: none !important;
+    border-left: 2px solid $event-border-color !important; 
     margin-left: -1px;
     font-size: 12px;
     font-weight: 600;
@@ -201,7 +203,8 @@ $rounded: 7px;
   border-radius:$rounded !important;
   color: $text-color !important;
   width: 100% !important;
-  text-align: center !important;
+  text-align: left !important;
+  padding: 5px !important;
   border: 2px solid $border-color !important;
 }
 .column > input[type="text"]{
@@ -210,7 +213,8 @@ $rounded: 7px;
   border-radius:$rounded !important;
   color: $text-color !important;
   width: 100% !important;
-  text-align: center !important;
+  text-align: left !important;
+  padding: 5px !important;
   border: 2px solid $border-color !important;
 }
 .column > textarea {
@@ -219,14 +223,20 @@ $rounded: 7px;
   border-radius: $rounded !important;
   color: $text-color !important;
   width: 100% !important;
-  text-align: center !important;
+  text-align: left !important;
+  padding: 5px !important;
   border: 2px solid $border-color !important;
 }
 // .column > input[type="submit"]{
 //   background-color: $border-color !important;
 //   border: 1px solid $border-color !important;
 // }
-
+.row{
+  margin-top: 5px !important;
+}
+.column{
+  margin-top: 5px !important;
+}
 .column > textarea::-webkit-scrollbar {
     width: 5px;            
 }

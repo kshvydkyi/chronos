@@ -54,8 +54,8 @@ class Calendar {
 
     async update(body, id) {
 		try {
-			var sql = `UPDATE calendars SET title = ${body.title} WHERE id = ${id}`;
-			const [row] = await dbConnection.execute(sql);
+			var sql = `UPDATE calendars SET title = '${body.title}' WHERE id = '${id}'`;
+			const [row] = await db.execute(sql);
             return row;
 		} catch (e) {
 			console.log(e);

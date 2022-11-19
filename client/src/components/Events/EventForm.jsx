@@ -2,10 +2,11 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import uk from "date-fns/locale/uk";
 import axios from '../../api/axios';
 import makeAnimated from 'react-select/animated';
-
+import Form from 'react-bootstrap/Form';
 // import {useCreateUpdateMutation, useDeleteMutation} from './eventMutationHooks'
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -78,6 +79,22 @@ const EventForm = ({ event, closeModal }) => {
 		window.location.href = "/calendar"
 	}
 
+	async function updateEvent() {
+		const response = await axios.patch(`/api/events/${eventId}`,
+		JSON.stringify({
+			title: title, description: description,
+			email: userEmail, endAt: endAt, startAt: startAt, category_id: category.value,
+			allDay: 1, calendar_id: calendarId.value
+		}),
+		{
+			headers: { 'Content-Type': 'application/json' },
+			withCredentials: true
+		}
+	);
+	console.log(category)
+	window.location.href = "/calendar"
+	}
+
 	async function deleteEvent() {
 		const response = await axios.delete(`/api/events/${eventId}`);
 		closeModal()
@@ -133,6 +150,7 @@ const EventForm = ({ event, closeModal }) => {
 	}
 	const [selectedValue, setSelectedValue] = useState();
 	const animatedComponents = makeAnimated();
+	registerLocale("uk", uk);
 	return (
 		<form
 			onSubmit={e => {
@@ -147,10 +165,11 @@ const EventForm = ({ event, closeModal }) => {
 							<label>Початок</label>
 							<DatePicker
 								selected={startAt}
+								locale="uk"
 								onChange={date => setStartDate(date)}
 								timeFormat="HH:mm"
 								timeIntervals={15}
-								dateFormat="MMMM d, yyyy h:mm aa"
+								dateFormat="d MMMM yyyy, HH:mm "
 								timeCaption="time"
 								showTimeInput
 								required
@@ -162,8 +181,9 @@ const EventForm = ({ event, closeModal }) => {
 								selected={endAt}
 								onChange={date => setEndDate(date)}
 								timeFormat="HH:mm"
+								locale="uk"
 								timeIntervals={15}
-								dateFormat="MMMM d, yyyy h:mm aa"
+								dateFormat="d MMMM yyyy, HH:mm "
 								timeCaption="time"
 								showTimeInput
 								required
@@ -172,16 +192,16 @@ const EventForm = ({ event, closeModal }) => {
 					</div>
 
 					<div className="row">
-						<div className="column">
-							<label>
-								<input
+						<Form.Check className="column ms-3">
+						<Form.Check.Input
 									type="checkbox"
 									checked={checked}
 									onChange={handleChange}
 								/>
-								Нагади тобі?
-							</label>
-						</div>
+							<Form.Check.Label>
+								Відправити нагадування на Email?
+							</Form.Check.Label>
+						</Form.Check>
 					</div>
 
 					<div className="row">
@@ -189,7 +209,7 @@ const EventForm = ({ event, closeModal }) => {
 							<label htmlFor="title">Назва</label>
 							<input
 								type="text"
-								placeholder="Title of event"
+								placeholder="Назва"
 								id="title"
 								value={title}
 								onChange={e => setTitle(e.target.value)}
@@ -241,7 +261,7 @@ const EventForm = ({ event, closeModal }) => {
 						<div className="column">
 							<label htmlFor="description">Опис</label>
 							<textarea
-								placeholder="Add description..."
+								placeholder="Додайте опис"
 								id="description"
 								columns="50"
 								value={description}
@@ -250,12 +270,12 @@ const EventForm = ({ event, closeModal }) => {
 						</div>
 					</div>
 
-					<div className="d-flex flex-row justify-content-around">
+					<div className="d-flex flex-row">
 						<div className="column column-50">
 							<input
-								className="text-white border border-secondary bg-secondary p-1 rounded"
+								className="text-white border border-secondary me-4 bg-secondary p-1 rounded"
 								type="submit"
-								onClick={() => submitEvent()}
+								onClick={eventExists ? () => updateEvent() : () => submitEvent()}
 								value={eventExists ? 'Update' : 'Create'}
 							/>
 						</div>
