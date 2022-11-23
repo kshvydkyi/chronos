@@ -15,6 +15,7 @@ import ConfirmEmail from './Auth/ConfirmEmail';
 import User from './Users/User';
 import ChangeUserAvatar from './Users/ChangeAvatar'
 import ChangeProfile from './Users/ChangeProfile';
+import Unauthorized from './Auth/Unauthorized';
 function App() {
 	if (!localStorage.getItem('autorized')) {
 		localStorage.setItem(
@@ -32,7 +33,7 @@ function App() {
 				<Route path="confirm-email/:token" element={<ConfirmEmail />} />
 				<Route path='reset-password' element={<ResetPassword/>} />
 				<Route path='reset-password/:token' element={<ResetPasswordWT/>} />
-				
+				<Route path='unauthorized' element={<Unauthorized/>}/>
 				{/* only authorized users */}
 				<Route element={<RequreAuth allowedRoles={['user', 'admin']}/>} >
 				<Route path='calendar' element={<Calendar/>} /> 

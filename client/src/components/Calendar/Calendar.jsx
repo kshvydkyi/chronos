@@ -214,7 +214,7 @@ const CalendarComp = () => {
 									week: 'Тиждень',
 									day: 'День',
 									agenda: 'Історія',
-									noEventsInRange: 'Нічого немає(',
+									noEventsInRange: 'Нічого немає',
 									date: 'Дата',
 									time: 'Час',
 									event: 'Івент',
