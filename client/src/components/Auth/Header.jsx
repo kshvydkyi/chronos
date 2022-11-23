@@ -77,7 +77,7 @@ const Header = () => {
 					<Navbar.Collapse id="responsive-navbar-nav">
 						<Nav className="me-auto">
 							<Nav.Link href="/calendar">Календар</Nav.Link>
-							<Nav.Link href="/">Пріколи</Nav.Link>
+							<Nav.Link href="/about">Розробники</Nav.Link>
 							<NavDropdown title="Дії" id="collasible-nav-dropdown">
 								<NavDropdown.Item onClick={() => setModalOpen(true)} href="">Створити календар</NavDropdown.Item>
 								<NavDropdown.Item href="#action/3.2">
