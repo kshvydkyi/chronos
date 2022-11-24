@@ -14,7 +14,7 @@ class Event {
 
     async select_by_user(user_id) {
         try {
-            var sql = `SELECT events.id, events.title, events.startAt, events.endAt, events.description, events.allDay, events.email, events.category_id FROM events 
+            var sql = `SELECT events.id, events.title, events.startAt, events.endAt, events.description, events.allDay, events.email, events.category_id, calendars_events.calendar_id FROM events 
             INNER JOIN calendars_events ON events.id = calendars_events.event_id
             INNER JOIN calendars ON calendars.id = calendars_events.calendar_id WHERE calendars.user_id = ${user_id}`;
             const [row] = await db.execute(sql);

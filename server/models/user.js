@@ -66,13 +66,15 @@ class User {
     }
 
     async update(body, user_id) {
-		try {
-			var sql = `UPDATE users SET login = ${body.login}, email = ${body.email}, full_name = ${body.full_name} WHERE id = ${user_id}`;
-			const [row] = await dbConnection.execute(sql);
-            return row;
-		} catch (e) {
-			console.log(e);
-		}
+        try{
+            if(Object.entries(body).length === 0){
+                throw 'Incorrect values';
+            }
+            await Object.entries(body).filter(([key, value]) => value).map(([key, value]) => db.execute(`UPDATE users SET ${key} = ${value} WHERE id = ${id}`))
+        }
+        catch(e) {
+           throw e;
+        }
 	}
 }
 export default new User();

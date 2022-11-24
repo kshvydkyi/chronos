@@ -25,7 +25,7 @@ router.get('/users/check-token/:token', UserController.checkToken);
 router.post('/users', UserController.create);
 router.patch('/users/avatar/:token', upload_Avatar_Image.single('image'), UserController.update_avatar);        //User avatar add
 router.delete('/users/:user_id', UserController.delete_by_id);
-router.patch('/users/:user_id/', UserController.update);
+router.patch('/users/:user_id/:token', UserController.update);
 
 //roles
 router.get('/roles', RoleController.select_all);

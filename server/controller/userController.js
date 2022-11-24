@@ -74,12 +74,28 @@ class UserController {
     }
     
     async update(req, res, next) {
-        try {
-            var user_id = req.params.user_id;
-            const result = await User.update(req.body, user_id);
-            status(200, {result}, res);
-        } catch (err) {
-            next(err);
+        const id = req.params.user_id;
+        const token = req.params.token;
+        const userData = jwt.verify(token, config.jwt);
+        if(+id !== userData.userId){
+            return response.status(403, {message:"Access denied"}, res)
+        }
+        const [{login, email}] = await User.getUserById(userData.userId);
+        const isLogin = await User.isLoginExist(req.body.login);
+        const isEmail = await User.isEmailExist(req.body.email);
+        if(isLogin && login !== req.body.login){
+            return response.status(409, {message:`User with login - ${req.body.login} already exist`}, res);
+
+        }
+        else if(isEmail && email !== req.body.email){
+            return response.status(409, {message:`User with email - ${req.body.email} already exist`}, res);
+        }
+        try{
+            await User.updateUserData(req.body, req.params.user_id);
+            response.status(200, {message:`Values changed`}, res);
+        }
+        catch (e){
+            response.status(500, {message: `${e}`}, res);
         }
     }
 }
