@@ -102,36 +102,65 @@ const CalendarComp = () => {
 		});	
 	
 	const [checked, setChecked] = React.useState([]);
-	const [calendarsEvents, setCalendarsEvents] = React.useState([]);
+	const [showEvents, setShowEvents] = React.useState([]);
 	const [holidaysHide, setHolidaysHide] = React.useState(false);
 	const [eventsHide, setEventsHide] = React.useState(false);
 
-	// const isCheckedFunc = (calendar, calStatus) => {
-	// 	const [isHide, setIsHide] = React.useState(false);
-	// }
+	React.useEffect(() => {
+		fetch(`/api/events/usersEvents/${currentUser.userId}`).then(response => response.json()).then(data => {
+			setShowEvents(data.values.result);
+		})
+	}, [])
+
+	React.useEffect(() => {
+		fetch(url).then(response => response.json()).then(data => {
+			setHolidays(data.items);
+		})
+	}, [])
+
 	const handleCheck = (event) => { // pizda
 		// let copyEventsList = [...eventsList];
 		if (event.target.checked) {
-			if (event.target.value === 'Holidays') setHolidaysHide(true)
-	
-			fetch(`/api/events/bycalendar/${event.target.value}/${currentUser.accessToken}`).then(response => response.json()).then(data => {
-				setCalendarsEvents(data.values.result)					
-			})
-			for(let i = 0; i < eventsList.length; i++) {
-				for(let j = 0; j < calendarsEvents.length; j++) {
-					if(calendarsEvents[j].title === eventsList[i].title) {
-						// eventsList.splice(i, i)
-						eventsList[i] = {title: ''}
-					}
-					// setEventsList(calendarsEvents);
-				}
-			}		
-			
-		} else {
 			if (event.target.value === 'Holidays') setHolidaysHide(false)
+			let calendarEvents = [];
 			fetch(`/api/events/usersEvents/${currentUser.userId}`).then(response => response.json()).then(data => {
 				setEventsList(data.values.result);
 			})
+			// for( let i = 0; i < eventsList.length; i++) { 
+			// 	console.log("id", eventsList[i].calendar_id, +event.target.value);
+			// 	if(eventsList[i].calendar_id === +event.target.value){
+			// 		calendarEvents.push(eventsList[i])
+			// 	}
+			// }
+			setShowEvents(eventsList);
+
+			// eventsList.map((item) => {
+			// 	if(item.calendar_id === +event.target.value){
+			// 		console.log(item);
+			// 		calendarEvents.push(item);
+					
+			// 	}
+			// 	console.log(calendarEvents);
+			// })
+			// setShowEvents(calendarEvents);
+			
+		} 
+		else {
+			if (event.target.value === 'Holidays') setHolidaysHide(true)
+			fetch(`/api/events/usersEvents/${currentUser.userId}`).then(response => response.json()).then(data => {
+				setEventsList(data.values.result);
+			})
+			for( let i = 0; i < eventsList.length; i++){ 
+				if(eventsList[i].calendar_id === +event.target.value){
+					eventsList.splice(i, 1); 
+				}
+			}
+			setShowEvents(eventsList);
+			// if (event.target.value === 'Holidays') setHolidaysHide(false)
+			// fetch(`/api/events/bycalendar/${event.target.value}/${currentUser.accessToken}`).then(response => response.json()).then(data => {
+			// 	setCalendarsEvents(data.values.result)			
+			// })
+			// setEventsList(calendarsEvents);
 			// console.log(calendarsList)
 			// setEventsList(calendarsList)
 				// for(let i = 0; i < copyEventsList.length; i++) {
@@ -164,14 +193,14 @@ const CalendarComp = () => {
 								<h3 className="title">Calendars</h3>
 								<div className="d-flex">
 								<Form.Check className="">
-									<Form.Check.Input value={'Holidays'} type="checkbox" onChange={handleCheck} />
+									<Form.Check.Input  defaultChecked={checked} value={'Holidays'} type="checkbox" onChange={handleCheck} />
 									<Form.Check.Label className={isChecked('Holidays')}>Holidays</Form.Check.Label>
 								</Form.Check>
 								{transformCalendars(calendarsList).map((item, index) => (
 									<>
 									<div className='ms-3'>
 									<Form.Check  key={index}>
-										<Form.Check.Input className="" value={item.id} type="checkbox" onChange={handleCheck} />
+										<Form.Check.Input className="" defaultChecked={checked} value={item.id} type="checkbox" onChange={handleCheck} />
 										<Form.Check.Label onClick={() => setModalOpen(true)} className={isChecked(item.title)}>{item.title}</Form.Check.Label>
 									</Form.Check>
 									
@@ -201,11 +230,12 @@ const CalendarComp = () => {
 									title: 'hi',
 								}]}
 
-								events={eventsHide === false ? transformEvents(eventsList) : [{
-									endDate: new Date('December 10, 1990 11:13:00'),
-									startDate: new Date('December 09, 1990 11:13:00'),
-									title: 'hi',
-								}]}
+								// events={eventsHide === false ? transformEvents(showEvents) : [{
+								// 	endDate: new Date('December 10, 1990 11:13:00'),
+								// 	startDate: new Date('December 09, 1990 11:13:00'),
+								// 	title: 'hi',
+								// }]}
+								events={transformEvents(showEvents)}
 								messages={{
 									next:"Наступний",
 									previous:"Попередній",
@@ -234,12 +264,11 @@ const CalendarComp = () => {
 								eventPropGetter={
 									(event, start, end, isSelected) => {
 									  let newStyle = {
-										backgroundColor: "lightgrey",
+										backgroundColor: "green",
 										color: 'rgb(192, 192, 192)',
 										borderRadius: "0px",
 										borderLeft: "2px solid yellow"
 									  };
-									  console.log(event)
 									  if (event.category === 1){
 										newStyle.backgroundColor = "rgb(0, 8, 77)"
 										// newStyle.borderLeft = "2px solid rgb(219, 183, 0)"

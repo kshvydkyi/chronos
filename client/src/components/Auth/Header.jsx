@@ -80,10 +80,6 @@ const Header = () => {
 							<Nav.Link href="/about">Розробники</Nav.Link>
 							<NavDropdown title="Дії" id="collasible-nav-dropdown">
 								<NavDropdown.Item onClick={() => setModalOpen(true)} href="">Створити календар</NavDropdown.Item>
-								<NavDropdown.Item href="#action/3.2">
-									Дія 2
-								</NavDropdown.Item>
-								<NavDropdown.Item href="#action/3.3">Дія 3</NavDropdown.Item>
 								<NavDropdown.Divider />
 								<NavDropdown.Item className="text-danger" href="https://birds-attack.web.app/">
 									Тут пріколи

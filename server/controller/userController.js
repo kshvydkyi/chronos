@@ -76,26 +76,27 @@ class UserController {
     async update(req, res, next) {
         const id = req.params.user_id;
         const token = req.params.token;
-        const userData = jwt.verify(token, config.jwt);
+        const userData = jwt.verify(token, 'jwt-key');
         if(+id !== userData.userId){
-            return response.status(403, {message:"Access denied"}, res)
+            return status(403, {message:"Access denied"}, res)
         }
-        const [{login, email}] = await User.getUserById(userData.userId);
+        const {login, email} = await User.select_by_id(userData.userId);
         const isLogin = await User.isLoginExist(req.body.login);
         const isEmail = await User.isEmailExist(req.body.email);
         if(isLogin && login !== req.body.login){
-            return response.status(409, {message:`User with login - ${req.body.login} already exist`}, res);
+            return status(409, {message:`User with login - ${req.body.login} already exist`}, res);
 
         }
         else if(isEmail && email !== req.body.email){
-            return response.status(409, {message:`User with email - ${req.body.email} already exist`}, res);
+            return status(409, {message:`User with email - ${req.body.email} already exist`}, res);
         }
         try{
-            await User.updateUserData(req.body, req.params.user_id);
-            response.status(200, {message:`Values changed`}, res);
+            await User.update(req.body, req.params.user_id);
+            status(200, {message:`Values changed`}, res);
         }
         catch (e){
-            response.status(500, {message: `${e}`}, res);
+            console.log(e)
+            status(500, {message: `${e}`}, res);
         }
     }
 }

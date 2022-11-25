@@ -70,7 +70,7 @@ class User {
             if(Object.entries(body).length === 0){
                 throw 'Incorrect values';
             }
-            await Object.entries(body).filter(([key, value]) => value).map(([key, value]) => db.execute(`UPDATE users SET ${key} = ${value} WHERE id = ${id}`))
+            await Object.entries(body).filter(([key, value]) => value).map(([key, value]) => db.execute(`UPDATE users SET ${key} = '${value}' WHERE id = ${user_id}`))
         }
         catch(e) {
            throw e;

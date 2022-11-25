@@ -61,6 +61,7 @@ const ChangeProfile = () => {
             // console.log(response);
             setLoading(false);
             navigate(-1);
+            document.location.reload();
         }
         catch (err) {
             setLoading(false);
