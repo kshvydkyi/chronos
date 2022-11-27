@@ -60,11 +60,9 @@ const CalendarComp = () => {
 
 
 
-	React.useEffect(() => {
-		fetch(url).then(response => response.json()).then(data => {
-			setHolidays(data.items);
-		})
-	}, [])
+
+
+
 
 	React.useEffect(() => {
 		fetch(`/api/events/usersEvents/${currentUser.userId}`).then(response => response.json()).then(data => {
@@ -107,43 +105,26 @@ const CalendarComp = () => {
 	const [eventsHide, setEventsHide] = React.useState(false);
 
 	React.useEffect(() => {
-		fetch(`/api/events/usersEvents/${currentUser.userId}`).then(response => response.json()).then(data => {
-			setShowEvents(data.values.result);
-		})
-	}, [])
-
-	React.useEffect(() => {
 		fetch(url).then(response => response.json()).then(data => {
 			setHolidays(data.items);
 		})
 	}, [])
 
-	const handleCheck = (event) => { // pizda
-		// let copyEventsList = [...eventsList];
+	React.useEffect(() => {
+		fetch(`/api/events/usersEvents/${currentUser.userId}`).then(response => response.json()).then(data => {
+			setShowEvents(data.values.result);
+		})
+	}, [])
+
+
+	const handleCheck = (event) => { 
 		if (event.target.checked) {
 			if (event.target.value === 'Holidays') setHolidaysHide(false)
 			let calendarEvents = [];
 			fetch(`/api/events/usersEvents/${currentUser.userId}`).then(response => response.json()).then(data => {
 				setEventsList(data.values.result);
 			})
-			// for( let i = 0; i < eventsList.length; i++) { 
-			// 	console.log("id", eventsList[i].calendar_id, +event.target.value);
-			// 	if(eventsList[i].calendar_id === +event.target.value){
-			// 		calendarEvents.push(eventsList[i])
-			// 	}
-			// }
 			setShowEvents(eventsList);
-
-			// eventsList.map((item) => {
-			// 	if(item.calendar_id === +event.target.value){
-			// 		console.log(item);
-			// 		calendarEvents.push(item);
-					
-			// 	}
-			// 	console.log(calendarEvents);
-			// })
-			// setShowEvents(calendarEvents);
-			
 		} 
 		else {
 			if (event.target.value === 'Holidays') setHolidaysHide(true)
@@ -156,22 +137,6 @@ const CalendarComp = () => {
 				}
 			}
 			setShowEvents(eventsList);
-			// if (event.target.value === 'Holidays') setHolidaysHide(false)
-			// fetch(`/api/events/bycalendar/${event.target.value}/${currentUser.accessToken}`).then(response => response.json()).then(data => {
-			// 	setCalendarsEvents(data.values.result)			
-			// })
-			// setEventsList(calendarsEvents);
-			// console.log(calendarsList)
-			// setEventsList(calendarsList)
-				// for(let i = 0; i < copyEventsList.length; i++) {
-				// 	for(let j = 0; j < calendarsEvents.length; j++) {
-				// 		if(calendarsEvents[j].id === copyEventsList[i].id) {
-				// 			// console.log(calendarsEvents);
-				// 			setEventsList(calendarsEvents)
-				// 			// eventsList calendarsEvents[j]);
-				// 		}
-				// 	}
-				// }
 		}
 	};
 
@@ -201,7 +166,7 @@ const CalendarComp = () => {
 									<div className='ms-3'>
 									<Form.Check  key={index}>
 										<Form.Check.Input className="" defaultChecked={checked} value={item.id} type="checkbox" onChange={handleCheck} />
-										<Form.Check.Label onClick={() => setModalOpen(true)} className={isChecked(item.title)}>{item.title}</Form.Check.Label>
+										<Form.Check.Label onClick={() => setModalOpen(true)} className="link-secondary">{item.title}</Form.Check.Label>
 									</Form.Check>
 									
 										<CalendarModal
@@ -225,8 +190,8 @@ const CalendarComp = () => {
 								localizer={localizer}
 
 								backgroundEvents={holidaysHide === false ? transformItems(holidays) : [{
-									endDate: new Date('December 10, 2017 11:13:00'),
-									startDate: new Date('December 09, 2017 11:13:00'),
+									endDate: new Date('December 10, 1999 11:13:00'),
+									startDate: new Date('December 09, 1999 11:13:00'),
 									title: 'hi',
 								}]}
 

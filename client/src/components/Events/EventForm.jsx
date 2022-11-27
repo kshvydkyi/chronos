@@ -276,7 +276,7 @@ const EventForm = ({ event, closeModal }) => {
 								className="text-white border border-secondary me-4 bg-secondary p-1 rounded"
 								type="submit"
 								onClick={eventExists ? () => updateEvent() : () => submitEvent()}
-								value={eventExists ? 'Update' : 'Create'}
+								value={eventExists ? 'Оновити' : 'Створити'}
 							/>
 						</div>
 						{eventExists && (
@@ -285,7 +285,7 @@ const EventForm = ({ event, closeModal }) => {
 									className="text-white border border-danger bg-danger p-1 rounded"
 									type="button"
 									onClick={() => deleteEvent()}
-									value="Delete"
+									value="Видалити"
 								/>
 							</div>
 						)}

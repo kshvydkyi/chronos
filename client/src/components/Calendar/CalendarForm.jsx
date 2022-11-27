@@ -60,10 +60,10 @@ window.location.href="/calendar"
         <div className="container">
           <div className="row">
             <div className="column">
-              <label htmlFor="title">Title</label>
+              <label htmlFor="title">Назва</label>
               <input
                 type="text"
-                placeholder="Title of event"
+                placeholder="Назва календаря"
                 id="title"
                 value={title}
                 onChange={e => setTitle(e.target.value)}
@@ -72,13 +72,13 @@ window.location.href="/calendar"
           </div>
 
 
-          <div className="d-flex flex-row justify-content-around">
+          <div className="d-flex flex-row">
             <div className="column column-50">
               <input
-                className="text-white border border-secondary bg-secondary mt-2 p-1 rounded"
+                className="text-white border border-secondary bg-secondary mt-2 p-1 me-5 rounded"
                 type="submit"
                 onClick={calendarExists ? () => updateCalendar() : () => submitCalendar()}
-                value={calendarExists ? 'Update' : 'Create'}
+                value={calendarExists ? 'Оновити' : 'Створити'}
               />
             </div>
             {calendarExists && (
@@ -87,7 +87,7 @@ window.location.href="/calendar"
                   className="text-white border border-danger bg-danger mt-2 p-1 rounded"
                   type="button"
                   onClick={() => deleteCalendar()}
-                  value="Delete"
+                  value="Видалити"
                 />
               </div>
             )}

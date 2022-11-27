@@ -60,7 +60,7 @@ const ChangeProfile = () => {
             localStorage.setItem('autorized', JSON.stringify({ accessToken: user.accessToken, role: user.role, user: changedLogin, userId: user.userId }))
             // console.log(response);
             setLoading(false);
-            navigate(-1);
+            navigate(`/user/${user.userId}`);
             document.location.reload();
         }
         catch (err) {

@@ -72,7 +72,7 @@ const Header = () => {
 			<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
 				<Container >
 					<img src={logo} height={40} alt='logo' />
-					<Navbar.Brand href="/">Chronos</Navbar.Brand>
+					<Navbar.Brand href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" target={'_blank'}>Chronos</Navbar.Brand>
 					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
 						<Nav className="me-auto">

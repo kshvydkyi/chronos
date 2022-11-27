@@ -28,7 +28,7 @@ function App() {
 		<Routes>
 			<Route path="/" element={<Layout />} >
 				{/* Auth module */}
-				<Route path='/' element={<WelcomePage />} />
+				
 				<Route path='login' element={<Login />} />
 				<Route path='registration' element={<Register />} />
 				<Route path="confirm-email/:token" element={<ConfirmEmail />} />
@@ -38,6 +38,7 @@ function App() {
 				<Route path='about' element={<About />} />
 				{/* only authorized users */}
 				<Route element={<RequreAuth allowedRoles={['user', 'admin']} />} >
+					<Route path='/' element={<NotFound />} />
 					<Route path='calendar' element={<Calendar />} />
 					<Route path='user/:id' element={<User />} />
 					<Route path='change-avatar' element={<ChangeUserAvatar />} />
