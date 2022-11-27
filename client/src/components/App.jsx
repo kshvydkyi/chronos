@@ -5,7 +5,6 @@ import Layout from './Auth/Layout';
 import NotFound from './Errors/NotFound';
 import RequreAuth from './Auth/RequireAuth';
 import ServerError from './Errors/ServerError';
-import WelcomePage from './Auth/WelcomePage';
 import Login from './Auth/Login';
 import Register from './Auth/Register';
 import ResetPassword from './Auth/ResetPassword';
